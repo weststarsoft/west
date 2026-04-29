@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>West Assistant</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080a0e;
+    --surface: #0f1218;
+    --surface2: #161b24;
+    --surface3: #1e2530;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf0;
+    --text-muted: #6b7280;
+    --accent: #c8f135;
+    --accent2: #3b82f6;
+    --accent3: #f59e0b;
+    --red: #ef4444;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── PAGES ─── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ─── TOP BANNERS ─── */
+  .banners {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: 220px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .banner {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.4s ease;
+  }
+  .banner:last-child { border-right: none; }
+
+  .banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+  }
+
+  .banner-1::before {
+    background: linear-gradient(135deg, #0d1f0a 0%, #1a3a10 40%, #0a1208 100%);
+  }
+  .banner-2::before {
+    background: linear-gradient(135deg, #060d1f 0%, #0e1f4a 40%, #060c18 100%);
+  }
+  .banner-3::before {
+    background: linear-gradient(135deg, #1f0a0a 0%, #3a1010 40%, #120808 100%);
+  }
+
+  .banner-glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+    z-index: 1;
+    transition: opacity 0.4s ease;
+  }
+  .banner-1 .banner-glow { background: #c8f135; bottom: -100px; left: -50px; }
+  .banner-2 .banner-glow { background: #3b82f6; bottom: -100px; left: 50%; transform: translateX(-50%); }
+  .banner-3 .banner-glow { background: #ef4444; bottom: -100px; right: -50px; }
+
+  .banner:hover .banner-glow { opacity: 0.5; }
+
+  .banner-noise {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 150px;
+  }
+
+  .banner-content {
+    position: relative;
+    z-index: 3;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 28px 32px;
+  }
+
+  .banner-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    opacity: 0.5;
+  }
+  .banner-1 .banner-tag { color: var(--accent); }
+  .banner-2 .banner-tag { color: var(--accent2); }
+  .banner-3 .banner-tag { color: var(--red); }
+
+  .banner-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    color: #fff;
+    transition: transform 0.4s ease;
+  }
+
+  .banner:hover .banner-title { transform: translateY(-4px); }
+
+  .banner-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    font-weight: 300;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+  }
+  .banner:hover .banner-sub { opacity: 1; transform: translateY(0); }
+
+  .banner-arrow {
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    z-index: 3;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.04);
+  }
+  .banner:hover .banner-arrow { opacity: 1; }
+  .banner-arrow svg { width: 14px; height: 14px; }
+
+  .banner.active-tab {
+    box-shadow: inset 0 -3px 0 var(--accent2);
+  }
+  .banner-1.active-tab { box-shadow: inset 0 -3px 0 var(--accent); }
+  .banner-3.active-tab { box-shadow: inset 0 -3px 0 var(--red); }
+
+  /* ─── MAIN CONTENT ─── */
+  .main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 56px 40px;
+  }
+
+  /* ─── SECTION HEADER ─── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.05em;
+    color: #fff;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── AI SECTION ─── */
+  .ai-section {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  /* Featured card */
+  .ai-featured {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 280px;
+  }
+
+  .ai-featured-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #060d1f 0%, #0e204a 60%, #060c18 100%);
+  }
+
+  .ai-featured-glow {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    background: var(--accent2);
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    top: -80px;
+    right: -80px;
+  }
+
+  .ai-featured-content {
+    position: relative;
+    z-index: 2;
+    padding: 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-featured-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--accent2);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-featured-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(59,130,246,0.2);
+  }
+
+  .ai-featured-icon {
+    font-size: 40px;
+    margin-bottom: 16px;
+  }
+
+  .ai-featured-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .ai-featured-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .ai-featured-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    background: var(--accent2);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+    width: fit-content;
+  }
+  .ai-featured-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(59,130,246,0.3);
+  }
+
+  /* AI Grid */
+  .ai-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .ai-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: block;
+  }
+
+  .ai-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .ai-card:hover {
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+  }
+  .ai-card:hover::before { opacity: 1; }
+
+  .ai-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .ai-card-icon { font-size: 24px; }
+
+  .ai-card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+  }
+  .tag-new { background: #c8f135; color: #000; }
+  .tag-hot { background: #ef4444; color: #fff; }
+  .tag-pro { background: #7c3aed; color: #fff; }
+
+  .ai-card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+
+  .ai-card-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .ai-card-arrow {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    opacity: 0;
+    transition: all 0.2s ease;
+    transform: translate(-4px, 4px);
+  }
+  .ai-card:hover .ai-card-arrow {
+    opacity: 0.5;
+    transform: translate(0, 0);
+  }
+
+  .ai-card.selected-ai {
+    border-color: var(--accent2);
+    box-shadow: 0 0 0 1px var(--accent2), inset 0 0 30px rgba(59,130,246,0.05);
+  }
+
+  /* ─── PROMPTS SECTION ─── */
+  .prompts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  .prompt-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .prompt-card:hover {
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .prompt-card-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    background: var(--surface3);
+  }
+
+  .prompt-card-img-placeholder {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .prompt-card-body {
+    padding: 20px;
+  }
+
+  .prompt-card-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .prompt-card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  .prompt-card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .prompt-card-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prompt-card-platform {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .prompt-card-cta {
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .prompt-card:hover .prompt-card-cta { opacity: 1; }
+
+  /* ─── ANGLES SECTION ─── */
+  .angles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 80px;
+  }
+
+  .angle-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .angle-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+
+  .angle-card:hover {
+    border-color: rgba(200,241,53,0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  }
+  .angle-card:hover::after { transform: scaleX(1); }
+
+  .angle-icon {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .angle-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .angle-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .angle-copy-hint {
+    margin-top: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    text-transform: uppercase;
+  }
+  .angle-card:hover .angle-copy-hint { opacity: 1; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-header {
+    padding: 32px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+    z-index: 1;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .modal-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .modal-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 18px;
+  }
+  .modal-close:hover {
+    border-color: rgba(255,255,255,0.2);
+    color: #fff;
+    background: var(--surface2);
+  }
+
+  .modal-body { padding: 28px 32px 32px; }
+
+  .modal-section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    margin-top: 24px;
+  }
+  .modal-section-label:first-child { margin-top: 0; }
+
+  .modal-orientation {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    font-weight: 300;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+
+  .modal-prompt-box {
+    background: #0a0d12;
+    border: 1px solid rgba(200,241,53,0.2);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #a8b4c8;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--accent);
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .copy-btn:hover { background: #d4f53f; transform: scale(1.02); }
+  .copy-btn.copied { background: #22c55e; color: #fff; }
+
+  /* ─── COMING SOON ─── */
+  .coming-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .coming-soon-icon { font-size: 64px; opacity: 0.3; }
+
+  .coming-soon-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    color: #fff;
+    letter-spacing: 0.05em;
+    opacity: 0.3;
+  }
+
+  .coming-soon-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+    max-width: 320px;
+    line-height: 1.6;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+  /* ─── ANIM ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up { animation: fadeUp 0.5s ease forwards; }
+  .fade-up-1 { animation-delay: 0.05s; opacity: 0; }
+  .fade-up-2 { animation-delay: 0.1s; opacity: 0; }
+  .fade-up-3 { animation-delay: 0.15s; opacity: 0; }
+  .fade-up-4 { animation-delay: 0.2s; opacity: 0; }
+  .fade-up-5 { animation-delay: 0.25s; opacity: 0; }
+  .fade-up-6 { animation-delay: 0.3s; opacity: 0; }
+
+  /* multiline orientation */
+  .orientation-step {
+    margin-bottom: 8px;
+    padding-left: 16px;
+    border-left: 2px solid rgba(200,241,53,0.3);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .orientation-step strong { color: var(--text); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- ─── TOP BANNERS ─── -->
+<div class="banners">
+  <div class="banner banner-1" onclick="setPage('west')">
+    <div class="banner-glow"></div>
+    <div class="banner-noise"></div>
+    <div class="banner-content">
+      <div class="banner-tag">Pessoal</div>
+      <div class="banner-title">MODO<br>WEST</div>
+      <div class="banner-sub">Rotina · Saúde · Objetivos</div>
+    </div>
+    <div class="banner-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </div>
+  </div>
+
+  <div class="banner banner-2 active-tab" onclick="setPage('tools')">
+    <div class="banner-glow"></div>
+    <div class="banner-noise"></div>
+    <div class="banner-content">
+      <div class="banner-tag">Inteligência Artificial</div>
+      <div class="banner-title">TOOLS<br>IA</div>
+      <div class="banner-sub">IAs · Prompts · Ângulos</div>
+    </div>
+    <div class="banner-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </div>
+  </div>
+
+  <div class="banner banner-3" onclick="setPage('treino')">
+    <div class="banner-glow"></div>
+    <div class="banner-noise"></div>
+    <div class="banner-content">
+      <div class="banner-tag">Fitness</div>
+      <div class="banner-title">TREINO</div>
+      <div class="banner-sub">Treinos · Progresso · Metas</div>
+    </div>
+    <div class="banner-arrow">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PAGE: TOOLS IA ─── -->
+<div class="page active" id="page-tools">
+  <div class="main">
+
+    <!-- SECTION: IAs -->
+    <div class="section-header fade-up fade-up-1">
+      <span class="section-title">INTELIGÊNCIAS ARTIFICIAIS</span>
+      <div class="section-line"></div>
+      <span class="section-count">08 TOOLS</span>
+    </div>
+
+    <div class="ai-section fade-up fade-up-2">
+      <!-- Featured -->
+      <div class="ai-featured" id="featured-card">
+        <div class="ai-featured-bg"></div>
+        <div class="ai-featured-glow"></div>
+        <div class="ai-featured-content">
+          <div class="ai-featured-label">Em Destaque</div>
+          <div class="ai-featured-icon" id="featured-icon">🌐</div>
+          <div class="ai-featured-name" id="featured-name">GEMINI</div>
+          <div class="ai-featured-desc" id="featured-desc">Nano Banana Pro — o modelo multimodal mais avançado do Google. Geração de imagens de alta qualidade com controle preciso de estilo e identidade.</div>
+          <a href="#" id="featured-link" class="ai-featured-btn" target="_blank">
+            Abrir Tool
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="ai-grid" id="ai-grid"></div>
+    </div>
+
+    <!-- SECTION: PROMPTS -->
+    <div class="section-header fade-up fade-up-3">
+      <span class="section-title">PROMPTS</span>
+      <div class="section-line"></div>
+      <span class="section-count">06 PROMPTS</span>
+    </div>
+
+    <div class="prompts-grid fade-up fade-up-4" id="prompts-grid"></div>
+
+    <!-- SECTION: ÂNGULOS -->
+    <div class="section-header fade-up fade-up-5">
+      <span class="section-title">ÂNGULOS CINEMATOGRÁFICOS</span>
+      <div class="section-line"></div>
+      <span class="section-count">10 ÂNGULOS</span>
+    </div>
+
+    <div class="angles-grid fade-up fade-up-6" id="angles-grid"></div>
+
+  </div>
+</div>
+
+<!-- ─── PAGE: MODO WEST ─── -->
+<div class="page" id="page-west">
+  <div class="main">
+    <div class="coming-soon">
+      <div class="coming-soon-icon">🌿</div>
+      <div class="coming-soon-title">MODO WEST</div>
+      <div class="coming-soon-text">Em breve — seus objetivos pessoais, rotina, saúde e metas em um único painel.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PAGE: TREINO ─── -->
+<div class="page" id="page-treino">
+  <div class="main">
+    <div class="coming-soon">
+      <div class="coming-soon-icon">🏋️</div>
+      <div class="coming-soon-title">TREINO</div>
+      <div class="coming-soon-text">Em breve — acompanhamento de treinos, progresso e metas físicas.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MODAL ─── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-category" id="modal-category"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section-label">Orientação</div>
+      <div class="modal-orientation" id="modal-orientation"></div>
+      <div class="modal-section-label">Prompt</div>
+      <div class="modal-prompt-box" id="modal-prompt">
+        <button class="copy-btn" onclick="copyPrompt()">Copiar</button>
+        <span id="modal-prompt-text"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───
+
+const aiTools = [
+  { id: 'gemini', name: 'Gemini', icon: '✦', desc: 'Nano Banana Pro — imagens de alta qualidade com controle de identidade', url: 'https://gemini.google.com', tag: null, featured: true },
+  { id: 'chatgpt', name: 'ChatGPT', icon: '◎', desc: 'Geração de imagens e texto com GPT Image 2.0', url: 'https://chat.openai.com', tag: 'hot', featured: false },
+  { id: 'midjourney', name: 'Midjourney', icon: '⬡', desc: 'Geração artística de alta fidelidade e estilo editorial', url: 'https://midjourney.com', tag: null, featured: false },
+  { id: 'higgsfield', name: 'Higgsfield', icon: '▶', desc: 'Geração de vídeos com controle de movimento e identidade', url: 'https://higgsfield.ai', tag: 'new', featured: false },
+  { id: 'leonardo', name: 'Leonardo.ai', icon: '◈', desc: 'Modelos especializados para criação de imagens e assets', url: 'https://leonardo.ai', tag: null, featured: false },
+  { id: 'grok', name: 'Grok', icon: '⟁', desc: 'IA da xAI com geração de imagens Aurora integrada', url: 'https://grok.x.ai', tag: null, featured: false },
+  { id: 'heygen', name: 'HeyGen', icon: '◉', desc: 'Avatar de vídeo com clonagem de voz e lip sync realista', url: 'https://heygen.com', tag: null, featured: false },
+  { id: 'kling', name: 'Kling', icon: '◐', desc: 'Geração de vídeo cinematográfico de alta resolução', url: 'https://klingai.com', tag: 'new', featured: false },
+];
+
+const prompts = [
+  {
+    id: 'identity-map',
+    name: 'Identity Map',
+    category: 'Referência Facial',
+    desc: 'Contact sheet com 6 ângulos do rosto para preservar identidade',
+    platform: 'Midjourney · Gemini',
+    gradient: 'linear-gradient(135deg, #1a0a2e, #2d1060)',
+    icon: '👤',
+    orientation: 'Gere um contact sheet de 6 frames (grid 3x2) com fundo neutro de estúdio. Use a imagem de referência para preservar a identidade facial. Mantenha o mesmo maquiagem, cabelo e brincos em todos os frames. O foco é no rosto — sem mudança de roupa.',
+    prompt: `Ultra-realistic facial reference contact sheet of a young Brazilian female influencer, using the provided reference image strictly for facial identity preservation.
+
+Layout:
+— 6-frame contact sheet (3x2 grid)
+— Neutral studio background
+— Consistent lighting across all frames
+— Same makeup, same hairstyle, same earrings
+— No outfit changes (focus on face only)
+
+Angles required:
+Frame 1: Front-facing, neutral expression
+Frame 2: Face turned 45° left, eyes looking directly into camera
+Frame 3: Face turned 45° right, eyes looking directly into camera
+Frame 4: Full left profile, face completely side-on
+Frame 5: Full right profile, face completely side-on
+Frame 6: Soft natural smile, front-facing
+
+Photography specifications:
+— 85mm portrait lens · Studio softbox lighting
+— Ultra-realistic skin detail · 8K resolution
+— No distortion · Anatomically accurate proportions
+
+Important:
+— Preserve exact facial identity from reference image
+— No facial structure changes · No exaggerated beautification`
+  },
+  {
+    id: 'mood-map',
+    name: 'Mood Map',
+    category: 'Expressões Faciais',
+    desc: 'Contact sheet com 6 expressões e ângulos de câmera distintos',
+    platform: 'Midjourney · Gemini',
+    gradient: 'linear-gradient(135deg, #0a1a2e, #103060)',
+    icon: '🎭',
+    orientation: 'Gere um contact sheet com 6 expressões e poses distintas. Cada frame deve ser imediatamente reconhecível e diferente dos demais. Use a imagem de referência para preservar identidade. Ângulos de câmera variados são essenciais.',
+    prompt: `Ultra-realistic facial expression and angle sheet of a young Brazilian female influencer, using the provided reference image strictly for facial identity preservation.
+
+Layout:
+— 6-frame contact sheet (3x2 grid)
+— Neutral studio background · Consistent lighting
+— Same makeup, same hairstyle, same earrings
+
+Frames — each must be visually distinct:
+Frame 1: CHIN DOWN — face tilted downward, eyes gazing sharply upward. Intense, editorial.
+Frame 2: CHIN UP — face tilted upward, neck elongated, eyes straight into camera. High-fashion.
+Frame 3: OVER-SHOULDER — body turned away, face turned back over left shoulder, eyes into camera.
+Frame 4: EYES CLOSED — face front-on, eyes completely closed, serene expression. No squinting.
+Frame 5: OPEN LAUGH — mouth open, genuine laugh, teeth showing, head tilted slightly back.
+Frame 6: SIDE EYE — face front-on, eyes shifted far to one side, subtle smirk, playful.
+
+Photography specifications:
+— 85mm portrait lens · 8K resolution · Ultra-realistic skin detail
+
+Important:
+— Preserve exact facial identity · Each frame immediately distinguishable`
+  },
+  {
+    id: 'body-blueprint',
+    name: 'Body Blueprint',
+    category: 'Referência Corporal',
+    desc: 'Model sheet técnico com 3 vistas: frente, lado e costas',
+    platform: 'Midjourney · Gemini',
+    gradient: 'linear-gradient(135deg, #0a1e10, #103020)',
+    icon: '🧍',
+    orientation: 'Gere um model sheet técnico com 3 vistas alinhadas (frente, perfil esquerdo, costas). Todas na mesma altura e escala. Pose neutra anatômica. Use a imagem de referência para preservar proporções exatas. Estilo de documentação técnica.',
+    prompt: `Ultra-realistic full body character model sheet of the SAME female influencer from the reference image.
+
+Create a single image containing three aligned full-body views side by side:
+1) Front view  2) Left side profile view  3) Back view
+
+All three views must be perfectly aligned at the same height and scale.
+Neutral anatomical standing pose · Feet shoulder-width apart · Arms slightly away from body
+
+Clothing:
+Simple fitted neutral beige short-sleeve top
+High-waisted black fitted shorts · No cleavage · No sensual pose · Barefoot
+
+Technical specs:
+Studio white background · Flat soft studio lighting · No dramatic shadows
+50mm lens equivalent · 8K ultra high resolution
+Orthographic consistency feel · Character proportion reference sheet
+
+Important:
+— Preserve EXACT facial structure, height ratio, waist-to-hip ratio, bust proportion
+— No exaggeration · No stylization · No modification of anatomy`
+  },
+  {
+    id: 'scene-transfer',
+    name: 'Scene Transfer',
+    category: 'Composição de Cena',
+    desc: 'Transfere uma modelo para outra cena mantendo identidade',
+    platform: 'Nano Banana · Gemini',
+    gradient: 'linear-gradient(135deg, #1e0a0a, #3a1010)',
+    icon: '🎬',
+    orientation: `Estratégia de 3 passos para transferência perfeita:
+
+1. Identifique as imagens claramente:
+   • Imagem 1: A modelo (rosto, cabelo, proporções físicas)
+   • Imagem 2: A cena de destino (luz, ambiente, paleta, profundidade)
+
+2. Use o template abaixo adaptando a ação desejada
+
+3. Power words no final garantem fidelidade:
+   Lighting Integration · Photorealistic Texture Rendering · Consistent Identity · Depth of Field Match`,
+    prompt: `Componha uma nova imagem transferindo exatamente a modelo da [Imagem 1] para o cenário e atmosfera da [Imagem 2].
+
+Mantenha a fidelidade facial e física da modelo, mas adapte a iluminação, sombras e texturas para que ela pareça estar naturalmente integrada à [Imagem 2].
+
+Descreva a ação: [ex: a modelo está sentada/caminhando] seguindo a perspectiva da cena de referência.
+
+— Lighting Integration
+— Photorealistic Texture Rendering
+— Consistent Identity
+— Depth of Field Match
+
+Dica de diretor: Se o resultado vier com rosto diferente, adicione:
+"Reforce os traços faciais da Imagem 1, priorizando a identidade sobre o estilo artístico da Imagem 2"`
+  },
+  {
+    id: 'character-lock',
+    name: 'Character Lock',
+    category: 'Consistência de Personagem',
+    desc: 'Mantém o mesmo rosto e identidade em múltiplas gerações',
+    platform: 'Midjourney · Gemini · Leonardo',
+    gradient: 'linear-gradient(135deg, #1a1a0a, #30300a)',
+    icon: '🔒',
+    orientation: `Use quando precisar gerar várias imagens com a mesma pessoa em cenas diferentes, mantendo identidade consistente entre todas as gerações.
+
+Dica principal: sempre referencie explicitamente os traços físicos da pessoa antes de descrever a cena. A IA tende a "derivar" a identidade — esses comandos travam o personagem.`,
+    prompt: `Using the provided reference image as the sole identity anchor, generate a new scene with the SAME person.
+
+Identity Lock Parameters:
+— SAME facial bone structure, same eye shape and color, same nose, same lip shape
+— SAME skin tone and texture
+— SAME hair color, texture and general length
+— Do NOT average or blend with other faces
+— Do NOT beautify or alter facial features
+
+New scene: [DESCREVA A CENA AQUI]
+
+Technical:
+— Consistent Identity enforcement: maximum priority
+— Face fidelity over scene aesthetics
+— Photorealistic rendering · Natural lighting
+— If face differs from reference: prioritize identity over style
+
+Final check: The person in the result must be immediately recognizable as the same individual from the reference photo.`
+  },
+  {
+    id: 'cinematic-frame',
+    name: 'Cinematic Frame',
+    category: 'Cena Cinematográfica',
+    desc: 'Gera ambientes e cenas com estética de produção cinematográfica',
+    platform: 'Midjourney · Gemini · Higgsfield',
+    gradient: 'linear-gradient(135deg, #0a0a1e, #10103a)',
+    icon: '🎞️',
+    orientation: `Use para criar imagens com atmosfera de filme de alta produção. A chave é especificar: diretor de referência, paleta de cores, tipo de lente e hora do dia. Combine esses elementos antes de descrever a cena para que a IA entenda o "tom" antes do conteúdo.`,
+    prompt: `Cinematic still photograph in the style of [DIRETOR/FILME DE REFERÊNCIA — ex: Denis Villeneuve, Zack Snyder, Wong Kar-wai].
+
+Scene: [DESCREVA A CENA, PERSONAGEM E AÇÃO]
+
+Cinematography specs:
+— [LENTE: ex: 35mm wide / 85mm portrait / 24mm anamorphic]
+— [HORA: Golden hour / Blue hour / Night / Overcast]
+— [PALETA: ex: desaturated teal and orange / warm amber / cold blue-grey]
+— Anamorphic lens flares · Shallow depth of field
+— Film grain texture · Cinematic color grading
+— Ultra high detail · 8K resolution
+
+Mood: [ex: melancholic / intense / ethereal / gritty]
+Lighting: [ex: single source backlight / practical neon lights / natural window light]
+
+— Shot on ARRI Alexa · Cinematic bokeh · No HDR overprocessing`
+  }
+];
+
+const angles = [
+  {
+    name: 'Extreme Close-Up',
+    icon: '🔬',
+    desc: 'Detalhe extremo — olhos, lábios, textura de pele',
+    orientation: 'Use para revelar emoção ou detalhe físico intenso. Enquadra apenas uma parte do rosto. Impacto editorial máximo.',
+    prompt: `Extreme Close-Up (ECU) shot of [SUJEITO].
+Frame only [ex: the eyes / the lips / the hands].
+Fill the entire frame with the subject detail.
+— Razor-sharp focus on the primary detail
+— Shallow depth of field, surrounding elements dissolve into bokeh
+— Macro-level skin/texture detail visible
+— [ILUMINAÇÃO: ex: side light / rim light / soft diffused]
+— Ultra-realistic texture rendering · 8K detail`
+  },
+  {
+    name: 'Tight Close-Up',
+    icon: '👁️',
+    desc: 'Rosto inteiro em quadro, foco em expressão',
+    orientation: 'Enquadra do queixo ao topo da cabeça. Ideal para revelar emoção com detalhe sem perder o contexto facial completo.',
+    prompt: `Tight Close-Up (TCU) shot of [SUJEITO].
+Frame from chin to top of head, face fills the entire frame.
+— Intense eye contact with camera
+— [EXPRESSÃO: ex: determined / vulnerable / intense / serene]
+— Studio-quality skin detail, visible pores
+— [ILUMINAÇÃO: ex: Rembrandt / butterfly / flat softbox]
+— 85mm portrait lens · Ultra-realistic · 8K resolution`
+  },
+  {
+    name: 'Close-Up',
+    icon: '📷',
+    desc: 'Clássico retrato — cabeça e ombros',
+    orientation: 'O enquadramento mais versátil para retratos. Mostra o rosto completo com contexto mínimo de ombros. Ótimo para expressar identidade.',
+    prompt: `Close-Up (CU) portrait shot of [SUJEITO].
+Frame from shoulders to top of head.
+— Face is the clear focal point
+— [ÂNGULO: ex: front-facing / slight 3/4 turn / profile]
+— Background: [ex: neutral studio / blurred environment / abstract bokeh]
+— [ILUMINAÇÃO: ex: golden hour backlight / studio softbox / natural window]
+— 85mm lens · Photorealistic · Natural skin texture · 8K`
+  },
+  {
+    name: 'Medium Close-Up',
+    icon: '🖼️',
+    desc: 'Da linha do peito para cima — contexto + expressão',
+    orientation: 'Mostra expressão e linguagem corporal superior. Ideal para retratos editoriais que precisam mostrar outfit ou contexto leve.',
+    prompt: `Medium Close-Up (MCU) shot of [SUJEITO].
+Frame from mid-chest to top of head.
+— Face and upper body language both readable
+— [POSE: ex: arms crossed / hand on chin / relaxed / leaning]
+— [OUTFIT CONTEXT: ex: leather jacket / casual top / formal attire]
+— Background: [ex: environmental / studio / bokeh cityscape]
+— [ILUMINAÇÃO] · 50mm lens equivalent · Cinematic quality · 8K`
+  },
+  {
+    name: 'American Shot',
+    icon: '🎥',
+    desc: 'Do joelho para cima — corpo + contexto',
+    orientation: 'Clássico do cinema americano (Western). Enquadra da metade das coxas para cima, permitindo ver gestos e movimento do corpo completo.',
+    prompt: `American Shot (Cowboy Shot) of [SUJEITO].
+Frame from mid-thigh to top of head.
+— Full arm and hand gestures visible
+— [POSE: ex: standing strong / walking toward camera / action pose]
+— [AMBIENTE: ex: urban street / interior / natural setting]
+— Slight environment context in background
+— [ILUMINAÇÃO] · Cinematic color grade · 35mm lens · 8K`
+  },
+  {
+    name: 'Full Shot',
+    icon: '🧍',
+    desc: 'Corpo inteiro, cabeça aos pés',
+    orientation: 'Mostra o personagem completo. Essencial para apresentar outfit, postura e presença física. Margem pequena acima da cabeça e abaixo dos pés.',
+    prompt: `Full Shot (FS) of [SUJEITO].
+Frame the entire body from head to toe, small margin top and bottom.
+— Complete figure visible, no cropping
+— [POSE: ex: neutral standing / power stance / walking / dynamic action]
+— [AMBIENTE: ex: studio white / environmental location / street]
+— Proportionally accurate anatomy
+— [ILUMINAÇÃO] · 35-50mm lens · Full body visible · 8K resolution`
+  },
+  {
+    name: 'Low Angle',
+    icon: '📐',
+    desc: 'Câmera abaixo do sujeito — poder e imponência',
+    orientation: 'Camera posicionada abaixo do nível dos olhos, apontando para cima. Cria sensação de poder, grandiosidade e dominância. Muito usado em super-heróis e cenas de impacto.',
+    prompt: `Low Angle shot of [SUJEITO].
+Camera positioned BELOW eye level, looking UP at the subject.
+— Subject appears powerful, dominant, imposing
+— Sky or ceiling visible in background creating depth
+— [SUJEITO: descreva personagem e ação]
+— Slight wide-angle distortion acceptable for dramatic effect
+— [ILUMINAÇÃO: ex: dramatic rim light / natural sky backlight / moody]
+— Cinematic color grade · Anamorphic feel · 8K`
+  },
+  {
+    name: 'High Angle',
+    icon: '🔭',
+    desc: 'Câmera acima do sujeito — vulnerabilidade ou perspectiva',
+    orientation: 'Camera acima do nível dos olhos, apontando para baixo. Pode transmitir vulnerabilidade, introspecção ou simplesmente dar perspectiva ambiental ao personagem.',
+    prompt: `High Angle shot of [SUJEITO].
+Camera positioned ABOVE eye level, looking DOWN at the subject.
+— Ground, floor or landscape visible below subject
+— [EFEITO DESEJADO: ex: vulnerability / contemplative / environmental scale]
+— [SUJEITO: descreva personagem e ação]
+— Wide enough to show surrounding environment context
+— [ILUMINAÇÃO] · Natural or cinematic lighting · 35mm lens · 8K`
+  },
+  {
+    name: 'Wide Shot',
+    icon: '🌅',
+    desc: 'Sujeito pequeno no ambiente — escala e contexto',
+    orientation: 'O personagem ocupa uma pequena porção do frame. O ambiente é o protagonista visual. Use para estabelecer localização, solidão ou escala épica.',
+    prompt: `Wide Shot (WS) / Establishing Shot of [SUJEITO].
+Subject occupies roughly 1/4 to 1/3 of the frame height.
+Environment is the visual protagonist.
+— [AMBIENTE: descreva o cenário em detalhes — arquitetura, natureza, clima]
+— [SUJEITO: posição no frame, ação, outfit]
+— Epic sense of scale between person and environment
+— [HORA DO DIA: ex: golden hour / blue hour / storm / snow]
+— Ultra-wide lens (16-24mm) · Cinematic landscape · 8K`
+  },
+  {
+    name: 'Over-the-Shoulder',
+    icon: '👥',
+    desc: 'Perspectiva de conversa — conexão entre dois sujeitos',
+    orientation: 'Câmera atrás e acima de um ombro, mostrando o rosto do outro personagem. Clássico de cenas de diálogo. Cria conexão e tensão entre dois sujeitos.',
+    prompt: `Over-the-Shoulder (OTS) shot.
+Camera positioned behind and above [PERSONAGEM A]'s shoulder, facing [PERSONAGEM B].
+— [PERSONAGEM A] back and shoulder visible in foreground (out of focus)
+— [PERSONAGEM B] face clearly in focus, looking toward camera direction
+— [CONTEXTO: ex: intense conversation / confrontation / intimate dialogue]
+— [AMBIENTE] · Shallow depth of field separating subjects
+— [ILUMINAÇÃO] · 85mm lens · Cinematic feel · 8K`
+  }
+];
+
+// ─── INIT ───
+
+let currentFeatured = 'gemini';
+
+function initAiGrid() {
+  const grid = document.getElementById('ai-grid');
+  const others = aiTools.filter(a => a.id !== currentFeatured);
+  grid.innerHTML = others.map(ai => `
+    <div class="ai-card" onclick="setFeatured('${ai.id}')">
+      <div class="ai-card-top">
+        <span class="ai-card-icon">${ai.icon}</span>
+        ${ai.tag ? `<span class="ai-card-tag tag-${ai.tag}">${ai.tag.toUpperCase()}</span>` : ''}
+      </div>
+      <div class="ai-card-name">${ai.name}</div>
+      <div class="ai-card-desc">${ai.desc}</div>
+      <a href="${ai.url}" target="_blank" class="ai-card-arrow" onclick="event.stopPropagation()">↗</a>
+    </div>
+  `).join('');
+}
+
+function handleAiClick(e, id, url) {
+  // Prevent default link navigation, handle manually
+  e.preventDefault();
+  // Single click = set as featured
+  setFeatured(id);
+}
+
+function setFeatured(id) {
+  currentFeatured = id;
+  const ai = aiTools.find(a => a.id === id);
+  document.getElementById('featured-icon').textContent = ai.icon;
+  document.getElementById('featured-name').textContent = ai.name.toUpperCase();
+  document.getElementById('featured-desc').textContent = ai.desc;
+  document.getElementById('featured-link').href = ai.url;
+  initAiGrid();
+}
+
+function initPrompts() {
+  const grid = document.getElementById('prompts-grid');
+  grid.innerHTML = prompts.map((p, i) => `
+    <div class="prompt-card fade-up fade-up-${Math.min(i+1, 6)}" onclick="openModal('prompt', ${i})">
+      <div class="prompt-card-img-placeholder" style="background: ${p.gradient}">
+        <span style="font-size:52px">${p.icon}</span>
+      </div>
+      <div class="prompt-card-body">
+        <div class="prompt-card-category">${p.category}</div>
+        <div class="prompt-card-name">${p.name}</div>
+        <div class="prompt-card-desc">${p.desc}</div>
+      </div>
+      <div class="prompt-card-footer">
+        <span class="prompt-card-platform">${p.platform}</span>
+        <span class="prompt-card-cta">Ver Prompt →</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function initAngles() {
+  const grid = document.getElementById('angles-grid');
+  grid.innerHTML = angles.map((a, i) => `
+    <div class="angle-card" onclick="openModal('angle', ${i})">
+      <span class="angle-icon">${a.icon}</span>
+      <div class="angle-name">${a.name}</div>
+      <div class="angle-desc">${a.desc}</div>
+      <div class="angle-copy-hint">↗ Ver Prompt</div>
+    </div>
+  `).join('');
+}
+
+// ─── MODAL ───
+
+let currentPromptText = '';
+
+function openModal(type, index) {
+  const overlay = document.getElementById('modal-overlay');
+  const data = type === 'prompt' ? prompts[index] : angles[index];
+
+  document.getElementById('modal-category').textContent = type === 'prompt' ? data.category : 'Ângulo Cinematográfico';
+  document.getElementById('modal-title').textContent = data.name;
+  document.getElementById('modal-orientation').innerHTML = data.orientation.replace(/\n/g, '<br>');
+  document.getElementById('modal-prompt-text').textContent = data.prompt;
+  currentPromptText = data.prompt;
+
+  const copyBtn = document.querySelector('.copy-btn');
+  copyBtn.textContent = 'Copiar';
+  copyBtn.className = 'copy-btn';
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalDirect();
+}
+
+function closeModalDirect() {
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyPrompt() {
+  navigator.clipboard.writeText(currentPromptText).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Copiado';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copiar';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+// ─── NAVIGATION ───
+
+function setPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.banner').forEach(b => b.classList.remove('active-tab'));
+
+  document.getElementById('page-' + page).classList.add('active');
+
+  const map = { west: 0, tools: 1, treino: 2 };
+  document.querySelectorAll('.banner')[map[page]].classList.add('active-tab');
+}
+
+// ESC to close modal
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModalDirect();
+});
+
+// ─── START ───
+initAiGrid();
+initPrompts();
+initAngles();
+
+// Make AI featured card openable
+document.getElementById('featured-link').addEventListener('click', e => {
+  // normal link behavior
+});
+
+// Allow right-click on ai cards to set as featured
+document.getElementById('ai-grid').addEventListener('contextmenu', e => {
+  e.preventDefault();
+  const card = e.target.closest('.ai-card');
+  if (card) {
+    const id = card.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+    // find by href
+    const href = card.href;
+    const ai = aiTools.find(a => a.url === href);
+    if (ai) setFeatured(ai.id);
+  }
+});
+</script>
+</body>
+</html>
