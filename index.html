@@ -764,6 +764,479 @@
     color: var(--text-muted);
   }
   .orientation-step strong { color: var(--text); font-weight: 500; }
+
+  /* ─── MODO WEST STYLES ─── */
+  .west-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* Journey bar */
+  .journey-wrap {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .journey-wrap::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: var(--accent);
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.06;
+  }
+  .journey-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .journey-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .journey-days {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+  .journey-days span {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    margin-left: 4px;
+  }
+  .journey-bar-track {
+    height: 8px;
+    background: var(--surface3);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 12px;
+  }
+  .journey-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent) 0%, #f0ff70 100%);
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.34,1.56,0.64,1);
+    position: relative;
+  }
+  .journey-bar-fill::after {
+    content: '🏆';
+    position: absolute;
+    right: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    filter: drop-shadow(0 0 8px rgba(200,241,53,0.6));
+  }
+  .journey-milestones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+  .journey-milestone {
+    text-align: center;
+    cursor: pointer;
+  }
+  .milestone-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    margin: 0 auto 6px;
+    transition: all 0.3s;
+  }
+  .milestone-dot.reached {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(200,241,53,0.5);
+  }
+  .milestone-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Period selector */
+  .period-selector {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .period-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .period-btn.active, .period-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(200,241,53,0.05);
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .stat-box {
+    background: var(--surface3);
+    border-radius: 10px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-weight: 300;
+  }
+
+  /* Habits grid */
+  .habits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .habit-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .habit-card.completed {
+    border-color: rgba(200,241,53,0.3);
+  }
+  .habit-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .habit-card-title-wrap { display: flex; align-items: center; gap: 12px; }
+  .habit-card-emoji { font-size: 28px; }
+  .habit-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 24px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    line-height: 1;
+  }
+  .habit-card-subtitle {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 2px;
+  }
+  .habit-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .badge-ok { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+  .badge-pending { background: rgba(107,114,128,0.15); color: var(--text-muted); border: 1px solid var(--border); }
+  .badge-warn { background: rgba(245,158,11,0.15); color: var(--accent3); border: 1px solid rgba(245,158,11,0.2); }
+
+  /* Water widget */
+  .water-progress-bar {
+    height: 6px;
+    background: var(--surface3);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .water-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .water-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: #60a5fa;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .water-amount span {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+  }
+  .water-goal { font-size: 11px; color: var(--text-muted); margin-bottom: 20px; }
+  .water-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  .water-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+  }
+  .water-btn:hover {
+    border-color: #3b82f6;
+    background: rgba(59,130,246,0.08);
+    transform: translateY(-2px);
+  }
+  .water-btn .icon { font-size: 22px; }
+  .water-btn .ml { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--text-muted); letter-spacing: 0.05em; }
+  .water-btn-undo {
+    display: flex; align-items: center; gap: 4px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: var(--text-muted);
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: auto;
+  }
+  .water-btn-undo:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+  /* Energy cans */
+  .energy-cans { display: flex; gap: 16px; margin-top: 8px; }
+  .energy-can {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    cursor: pointer; transition: transform 0.2s;
+  }
+  .energy-can:hover { transform: scale(1.1); }
+  .can-icon {
+    font-size: 36px;
+    filter: grayscale(1) opacity(0.3);
+    transition: all 0.3s;
+  }
+  .energy-can.consumed .can-icon {
+    filter: grayscale(0) opacity(1);
+    filter: drop-shadow(0 0 8px rgba(245,158,11,0.5));
+  }
+  .can-label { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--text-muted); letter-spacing: 0.05em; }
+  .energy-reset { font-size: 11px; color: var(--text-muted); margin-top: 12px; font-weight: 300; }
+
+  /* Creatine grid */
+  .creatine-grid {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr);
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .scoop {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+  }
+  .scoop:hover { border-color: rgba(200,241,53,0.3); }
+  .scoop.taken {
+    background: rgba(200,241,53,0.15);
+    border-color: rgba(200,241,53,0.4);
+    color: var(--accent);
+  }
+  .scoop.today {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px rgba(200,241,53,0.3);
+  }
+  .creatine-count { font-size: 11px; color: var(--text-muted); margin-top: 10px; font-weight: 300; }
+
+  /* Push-ups */
+  .pushup-wrap { display: flex; align-items: center; gap: 24px; margin-top: 8px; }
+  .pushup-btn {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface3);
+    font-size: 40px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .pushup-btn:hover { border-color: var(--accent); transform: scale(1.05); }
+  .pushup-btn.done {
+    border-color: var(--accent);
+    background: rgba(200,241,53,0.1);
+    box-shadow: 0 0 20px rgba(200,241,53,0.2);
+  }
+  .pushup-text { flex: 1; }
+  .pushup-status {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .pushup-status.done { color: var(--accent); }
+  .pushup-sub { font-size: 12px; color: var(--text-muted); font-weight: 300; margin-top: 4px; }
+
+  /* Diet card */
+  .diet-items { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .diet-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: var(--surface3);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .diet-item:hover { border-color: rgba(255,255,255,0.1); }
+  .diet-item.checked { border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.05); }
+  .diet-check {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .diet-item.checked .diet-check {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #fff;
+  }
+  .diet-item-text { font-size: 13px; color: var(--text); font-weight: 300; }
+
+  /* Training card */
+  .training-week {
+    display: flex; gap: 8px; margin-top: 4px; margin-bottom: 16px;
+  }
+  .training-day {
+    flex: 1;
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 4px;
+  }
+  .training-day:hover { border-color: rgba(200,241,53,0.2); }
+  .training-day.done { background: rgba(200,241,53,0.1); border-color: rgba(200,241,53,0.4); }
+  .training-day.today { border-color: var(--accent); box-shadow: 0 0 8px rgba(200,241,53,0.2); }
+  .training-day .day-name { font-family: 'Space Mono', monospace; font-size: 8px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .training-day .day-check { font-size: 16px; }
+  .training-meta { font-size: 11px; color: var(--text-muted); font-weight: 300; }
+  .training-phase {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent3);
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  /* No-soda */
+  .nosoda-streak {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: var(--accent);
+    line-height: 1;
+    letter-spacing: 0.05em;
+    text-align: center;
+    margin: 8px 0 4px;
+  }
+  .nosoda-label { text-align: center; font-size: 12px; color: var(--text-muted); font-weight: 300; }
+  .nosoda-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(239,68,68,0.3);
+    background: rgba(239,68,68,0.05);
+    color: #ef4444;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nosoda-btn:hover { background: rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.5); }
+  .nosoda-ok {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(34,197,94,0.3);
+    background: rgba(34,197,94,0.05);
+    color: #22c55e;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200,241,53,0); }
+    50% { box-shadow: 0 0 0 6px rgba(200,241,53,0.15); }
+  }
+  .habit-card.completed { animation: pulse-green 3s ease infinite; }
+
 </style>
 </head>
 <body>
@@ -865,11 +1338,208 @@
 
 <!-- ─── PAGE: MODO WEST ─── -->
 <div class="page" id="page-west">
-  <div class="main">
-    <div class="coming-soon">
-      <div class="coming-soon-icon">🌿</div>
-      <div class="coming-soon-title">MODO WEST</div>
-      <div class="coming-soon-text">Em breve — seus objetivos pessoais, rotina, saúde e metas em um único painel.</div>
+  <div class="west-main">
+
+    <!-- JOURNEY BAR -->
+    <div class="journey-wrap" id="journey-wrap">
+      <div class="journey-top">
+        <div>
+          <div class="journey-label">Projeto West · 60 Dias</div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin-top:6px">
+            <div class="journey-days" id="journey-day-num">01<span>/ 60</span></div>
+            <div style="font-size:13px;color:var(--text-muted);font-weight:300" id="journey-date"></div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="journey-label" style="margin-bottom:6px">Score do Dia</div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--accent);line-height:1" id="daily-score">0<span style="font-size:18px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-weight:300">/6</span></div>
+        </div>
+      </div>
+
+      <div class="journey-bar-track">
+        <div class="journey-bar-fill" id="journey-fill" style="width:1.6%"></div>
+      </div>
+
+      <div class="journey-milestones">
+        <div class="journey-milestone"><div class="milestone-dot reached" id="ms-0"></div><div class="milestone-label">Hoje</div></div>
+        <div class="journey-milestone"><div class="milestone-dot" id="ms-7"></div><div class="milestone-label">7D</div></div>
+        <div class="journey-milestone"><div class="milestone-dot" id="ms-15"></div><div class="milestone-label">15D</div></div>
+        <div class="journey-milestone"><div class="milestone-dot" id="ms-30"></div><div class="milestone-label">30D</div></div>
+        <div class="journey-milestone"><div class="milestone-dot" id="ms-60"></div><div class="milestone-label">🏆 60D</div></div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:20px">
+        <div class="period-selector">
+          <button class="period-btn active" onclick="setPeriod('week',this)">Semana</button>
+          <button class="period-btn" onclick="setPeriod('15',this)">15 Dias</button>
+          <button class="period-btn" onclick="setPeriod('30',this)">30 Dias</button>
+          <button class="period-btn" onclick="setPeriod('60',this)">60 Dias</button>
+        </div>
+      </div>
+
+      <div class="stats-row" id="stats-row">
+        <div class="stat-box"><div class="stat-value" id="stat-treino">0</div><div class="stat-label">Treinos</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-agua">0L</div><div class="stat-label">Água Média</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-flex">0</div><div class="stat-label">Flexões ✓</div></div>
+        <div class="stat-box"><div class="stat-value" id="stat-score">0%</div><div class="stat-label">Consistência</div></div>
+      </div>
+    </div>
+
+    <!-- HABITS GRID -->
+    <div class="habits-grid">
+
+      <!-- ÁGUA -->
+      <div class="habit-card" id="card-agua">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">💧</span>
+            <div>
+              <div class="habit-card-title">Água</div>
+              <div class="habit-card-subtitle">Meta: 3 litros por dia</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-pending" id="badge-agua">Pendente</span>
+        </div>
+        <div class="water-progress-bar"><div class="water-progress-fill" id="water-fill" style="width:0%"></div></div>
+        <div class="water-amount" id="water-amount">0<span>ml / 3000ml</span></div>
+        <div class="water-goal" id="water-goal-text">Faltam 3000ml para atingir a meta</div>
+        <div class="water-btns">
+          <button class="water-btn" onclick="addWater(400)"><span class="icon">🥛</span><span class="ml">+400ml</span></button>
+          <button class="water-btn" onclick="addWater(500)"><span class="icon">🧴</span><span class="ml">+500ml</span></button>
+          <button class="water-btn" onclick="addWater(2000)"><span class="icon">🫙</span><span class="ml">+2000ml</span></button>
+          <button class="water-btn-undo" onclick="undoWater()">↩ Desfazer</button>
+        </div>
+      </div>
+
+      <!-- TREINO -->
+      <div class="habit-card" id="card-treino">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">🏋️</span>
+            <div>
+              <div class="habit-card-title">Treino</div>
+              <div class="habit-card-subtitle" id="treino-subtitle">Meta: 5x por semana</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-pending" id="badge-treino">Pendente</span>
+        </div>
+        <div class="training-phase" id="training-phase">⚡ Fase 1 · Dias 1–30</div>
+        <div class="training-week" id="training-week"></div>
+        <div class="training-meta" id="training-meta"></div>
+      </div>
+
+      <!-- ENERGÉTICO -->
+      <div class="habit-card" id="card-energy">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">⚡</span>
+            <div>
+              <div class="habit-card-title">Energético</div>
+              <div class="habit-card-subtitle">Limite: 3 por semana</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-ok" id="badge-energy">No Limite</span>
+        </div>
+        <div class="energy-cans" id="energy-cans">
+          <div class="energy-can" id="can-0" onclick="toggleCan(0)">
+            <span class="can-icon">🥫</span><span class="can-label">1ª</span>
+          </div>
+          <div class="energy-can" id="can-1" onclick="toggleCan(1)">
+            <span class="can-icon">🥫</span><span class="can-label">2ª</span>
+          </div>
+          <div class="energy-can" id="can-2" onclick="toggleCan(2)">
+            <span class="can-icon">🥫</span><span class="can-label">3ª</span>
+          </div>
+        </div>
+        <div class="energy-reset" id="energy-reset-text">Reseta em <strong id="energy-days-left">?</strong> dias</div>
+      </div>
+
+      <!-- REFRIGERANTE -->
+      <div class="habit-card" id="card-soda">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">🚫</span>
+            <div>
+              <div class="habit-card-title">Refrigerante</div>
+              <div class="habit-card-subtitle">Meta: Zero absoluto</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-ok" id="badge-soda">Zero hoje</span>
+        </div>
+        <div class="nosoda-streak" id="soda-streak">0</div>
+        <div class="nosoda-label">dias sem refrigerante</div>
+        <button class="nosoda-btn" id="soda-fail-btn" onclick="sodaFail()">⚠ Tomei hoje</button>
+      </div>
+
+      <!-- ALIMENTAÇÃO -->
+      <div class="habit-card" id="card-diet">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">🥩</span>
+            <div>
+              <div class="habit-card-title">Alimentação</div>
+              <div class="habit-card-subtitle">Protocolo diário</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-pending" id="badge-diet">0/4</span>
+        </div>
+        <div class="diet-items">
+          <div class="diet-item" id="diet-0" onclick="toggleDiet(0)">
+            <div class="diet-check" id="diet-check-0"></div>
+            <span class="diet-item-text">🚫 Zero doce</span>
+          </div>
+          <div class="diet-item" id="diet-1" onclick="toggleDiet(1)">
+            <div class="diet-check" id="diet-check-1"></div>
+            <span class="diet-item-text">🚫 Zero industrializado</span>
+          </div>
+          <div class="diet-item" id="diet-2" onclick="toggleDiet(2)">
+            <div class="diet-check" id="diet-check-2"></div>
+            <span class="diet-item-text">🚫 Zero processado</span>
+          </div>
+          <div class="diet-item" id="diet-3" onclick="toggleDiet(3)">
+            <div class="diet-check" id="diet-check-3"></div>
+            <span class="diet-item-text">✅ Carne, ovos e frutas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FLEXÕES -->
+      <div class="habit-card" id="card-pushup">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">💪</span>
+            <div>
+              <div class="habit-card-title">Flexões</div>
+              <div class="habit-card-subtitle">Meta: 100 por dia</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-pending" id="badge-pushup">Pendente</span>
+        </div>
+        <div class="pushup-wrap">
+          <button class="pushup-btn" id="pushup-btn" onclick="togglePushup()">💪</button>
+          <div class="pushup-text">
+            <div class="pushup-status" id="pushup-status">Não feito</div>
+            <div class="pushup-sub" id="pushup-sub">Clique no ícone para confirmar suas 100 flexões</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATINA -->
+      <div class="habit-card full-width" id="card-creatina">
+        <div class="habit-card-header">
+          <div class="habit-card-title-wrap">
+            <span class="habit-card-emoji">🥄</span>
+            <div>
+              <div class="habit-card-title">Creatina</div>
+              <div class="habit-card-subtitle">60 doses · 1 por dia</div>
+            </div>
+          </div>
+          <span class="habit-badge badge-pending" id="badge-creatina">0/60</span>
+        </div>
+        <div class="creatine-grid" id="creatine-grid"></div>
+        <div class="creatine-count" id="creatine-count">0 doses tomadas · 60 restantes</div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1360,6 +2030,7 @@ function setPage(page) {
   document.querySelectorAll('.banner').forEach(b => b.classList.remove('active-tab'));
 
   document.getElementById('page-' + page).classList.add('active');
+  if (page === 'west') initWest();
 
   const map = { west: 0, tools: 1, treino: 2 };
   document.querySelectorAll('.banner')[map[page]].classList.add('active-tab');
@@ -1370,10 +2041,342 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeModalDirect();
 });
 
+
+// ─── MODO WEST STATE ───
+
+const PROJECT_START = (() => {
+  const stored = localStorage.getItem('west_start');
+  if (stored) return new Date(stored);
+  const d = new Date();
+  d.setHours(0,0,0,0);
+  localStorage.setItem('west_start', d.toISOString());
+  return d;
+})();
+
+const TODAY_KEY = new Date().toISOString().split('T')[0];
+
+function getState() {
+  const def = {
+    water: 0,
+    waterHistory: [],
+    trainingWeek: [false,false,false,false,false,false,false],
+    energyCans: [false,false,false],
+    energyWeekStart: getWeekStart(),
+    sodaStreak: 0,
+    sodaLastFail: null,
+    diet: [false,false,false,false],
+    pushup: false,
+    creatina: Array(60).fill(false),
+    // history per day
+    history: {}
+  };
+  const stored = localStorage.getItem('west_state');
+  if (!stored) return def;
+  try {
+    const s = JSON.parse(stored);
+    // Reset daily items if date changed
+    const lastDate = s.lastDate || '';
+    if (lastDate !== TODAY_KEY) {
+      // Save yesterday to history
+      if (lastDate) {
+        s.history = s.history || {};
+        s.history[lastDate] = {
+          water: s.water,
+          pushup: s.pushup,
+          diet: [...(s.diet||[false,false,false,false])],
+          training: s.trainingWeek ? s.trainingWeek.filter(Boolean).length : 0
+        };
+      }
+      s.water = 0;
+      s.waterHistory = [];
+      s.pushup = false;
+      s.diet = [false,false,false,false];
+      s.lastDate = TODAY_KEY;
+      // Reset energy if new week
+      const newWeekStart = getWeekStart();
+      if (s.energyWeekStart !== newWeekStart) {
+        s.energyCans = [false,false,false];
+        s.energyWeekStart = newWeekStart;
+      }
+      // Soda streak check
+      if (s.sodaLastFail !== TODAY_KEY && lastDate) {
+        s.sodaStreak = (s.sodaStreak || 0) + 1;
+      }
+    }
+    return { ...def, ...s };
+  } catch(e) { return def; }
+}
+
+function saveState(s) {
+  s.lastDate = TODAY_KEY;
+  localStorage.setItem('west_state', JSON.stringify(s));
+}
+
+function getWeekStart() {
+  const d = new Date();
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const monday = new Date(d.setDate(diff));
+  return monday.toISOString().split('T')[0];
+}
+
+function getDayNumber() {
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  const diff = Math.floor((now - PROJECT_START) / (1000*60*60*24)) + 1;
+  return Math.min(Math.max(diff, 1), 60);
+}
+
+// ─── RENDER WEST ───
+
+function renderWest() {
+  const s = getState();
+  const dayNum = getDayNumber();
+
+  // Journey
+  document.getElementById('journey-day-num').innerHTML = String(dayNum).padStart(2,'0') + '<span>/ 60</span>';
+  const now = new Date();
+  document.getElementById('journey-date').textContent = now.toLocaleDateString('pt-BR', { weekday:'long', day:'numeric', month:'long' });
+  document.getElementById('journey-fill').style.width = (dayNum/60*100) + '%';
+
+  // Milestones
+  [7,15,30].forEach(d => {
+    const el = document.getElementById('ms-' + d);
+    if (el) el.classList.toggle('reached', dayNum >= d);
+  });
+  const ms60 = document.getElementById('ms-60');
+  if (ms60) ms60.classList.toggle('reached', dayNum >= 60);
+
+  // Water
+  const waterPct = Math.min(s.water / 3000 * 100, 100);
+  document.getElementById('water-fill').style.width = waterPct + '%';
+  document.getElementById('water-amount').innerHTML = s.water + '<span>ml / 3000ml</span>';
+  const left = Math.max(0, 3000 - s.water);
+  document.getElementById('water-goal-text').textContent = left === 0 ? '🎉 Meta atingida!' : 'Faltam ' + left + 'ml para atingir a meta';
+  const waterDone = s.water >= 3000;
+  setBadge('badge-agua', waterDone ? 'ok' : 'pending', waterDone ? '✓ Meta' : 'Pendente');
+  document.getElementById('card-agua').classList.toggle('completed', waterDone);
+
+  // Training
+  const isPhase2 = dayNum > 30;
+  const targetDays = isPhase2 ? 6 : 5;
+  document.getElementById('treino-subtitle').textContent = 'Meta: ' + targetDays + 'x por semana';
+  document.getElementById('training-phase').textContent = isPhase2 ? '🔥 Fase 2 · Dias 31–60' : '⚡ Fase 1 · Dias 1–30';
+  document.getElementById('training-phase').style.color = isPhase2 ? '#ef4444' : 'var(--accent3)';
+  renderTrainingWeek(s);
+
+  // Energy
+  s.energyCans.forEach((c, i) => {
+    document.getElementById('can-'+i).classList.toggle('consumed', c);
+  });
+  const cansUsed = s.energyCans.filter(Boolean).length;
+  const energyOk = cansUsed < 3;
+  setBadge('badge-energy', cansUsed === 3 ? 'warn' : 'ok', cansUsed + '/3 usados');
+  // days to reset
+  const weekStart = new Date(s.energyWeekStart || getWeekStart());
+  const nextReset = new Date(weekStart);
+  nextReset.setDate(nextReset.getDate() + 7);
+  const daysLeft = Math.ceil((nextReset - new Date()) / (1000*60*60*24));
+  document.getElementById('energy-days-left').textContent = daysLeft;
+
+  // Soda
+  document.getElementById('soda-streak').textContent = s.sodaStreak || 0;
+  const sodaFailed = s.sodaLastFail === TODAY_KEY;
+  setBadge('badge-soda', sodaFailed ? 'warn' : 'ok', sodaFailed ? '⚠ Falhou hoje' : 'Zero hoje');
+
+  // Diet
+  s.diet.forEach((v, i) => {
+    document.getElementById('diet-' + i).classList.toggle('checked', v);
+    document.getElementById('diet-check-' + i).textContent = v ? '✓' : '';
+  });
+  const dietCount = s.diet.filter(Boolean).length;
+  setBadge('badge-diet', dietCount === 4 ? 'ok' : 'pending', dietCount + '/4');
+  document.getElementById('card-diet').classList.toggle('completed', dietCount === 4);
+
+  // Pushup
+  const pushDone = s.pushup;
+  document.getElementById('pushup-btn').classList.toggle('done', pushDone);
+  document.getElementById('pushup-status').textContent = pushDone ? '100 Flexões ✓' : 'Não feito';
+  document.getElementById('pushup-status').classList.toggle('done', pushDone);
+  document.getElementById('pushup-sub').textContent = pushDone ? 'Parabéns! Meta do dia concluída.' : 'Clique no ícone para confirmar suas 100 flexões';
+  setBadge('badge-pushup', pushDone ? 'ok' : 'pending', pushDone ? '✓ Feito' : 'Pendente');
+  document.getElementById('card-pushup').classList.toggle('completed', pushDone);
+
+  // Creatina
+  const grid = document.getElementById('creatine-grid');
+  grid.innerHTML = Array(60).fill(0).map((_, i) => {
+    const taken = s.creatina[i];
+    const isToday = i === dayNum - 1;
+    return `<div class="scoop ${taken ? 'taken' : ''} ${isToday ? 'today' : ''}" onclick="toggleScoop(${i})" title="Dia ${i+1}">${taken ? '✓' : ''}</div>`;
+  }).join('');
+  const takenCount = s.creatina.filter(Boolean).length;
+  document.getElementById('badge-creatina').textContent = takenCount + '/60';
+  document.getElementById('creatine-count').textContent = takenCount + ' doses tomadas · ' + (60-takenCount) + ' restantes';
+  document.getElementById('card-creatina').classList.toggle('completed', s.creatina[dayNum-1]);
+
+  // Daily score
+  let score = 0;
+  if (waterDone) score++;
+  if (s.pushup) score++;
+  if (dietCount === 4) score++;
+  if (s.creatina[dayNum-1]) score++;
+  if (!sodaFailed) score++;
+  // Check if trained today
+  const todayIdx = new Date().getDay();
+  const adjustedIdx = todayIdx === 0 ? 6 : todayIdx - 1;
+  if (s.trainingWeek[adjustedIdx]) score++;
+  document.getElementById('daily-score').innerHTML = score + `<span style="font-size:18px;color:var(--text-muted);font-family:'DM Sans',sans-serif;font-weight:300">/6</span>`;
+}
+
+function renderTrainingWeek(s) {
+  const days = ['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
+  const today = new Date().getDay();
+  const todayIdx = today === 0 ? 6 : today - 1;
+  const wrap = document.getElementById('training-week');
+  wrap.innerHTML = days.map((d, i) => `
+    <div class="training-day ${s.trainingWeek[i] ? 'done' : ''} ${i === todayIdx ? 'today' : ''}" onclick="toggleTraining(${i})">
+      <span class="day-name">${d}</span>
+      <span class="day-check">${s.trainingWeek[i] ? '✅' : '○'}</span>
+    </div>
+  `).join('');
+  const weekCount = s.trainingWeek.filter(Boolean).length;
+  const dayNum = getDayNumber();
+  const target = dayNum > 30 ? 6 : 5;
+  document.getElementById('training-meta').textContent = weekCount + '/' + target + ' treinos esta semana';
+  const trainingDone = weekCount >= target;
+  setBadge('badge-treino', trainingDone ? 'ok' : 'pending', trainingDone ? '✓ Meta' : weekCount + '/' + target);
+  document.getElementById('card-treino').classList.toggle('completed', trainingDone);
+}
+
+function setBadge(id, type, text) {
+  const el = document.getElementById(id);
+  el.className = 'habit-badge badge-' + type;
+  el.textContent = text;
+}
+
+// ─── ACTIONS ───
+
+function addWater(ml) {
+  const s = getState();
+  s.waterHistory = s.waterHistory || [];
+  s.waterHistory.push(ml);
+  s.water = Math.min((s.water || 0) + ml, 3000);
+  saveState(s);
+  renderWest();
+}
+
+function undoWater() {
+  const s = getState();
+  if (!s.waterHistory || s.waterHistory.length === 0) return;
+  const last = s.waterHistory.pop();
+  s.water = Math.max(0, s.water - last);
+  saveState(s);
+  renderWest();
+}
+
+function toggleTraining(idx) {
+  const s = getState();
+  s.trainingWeek[idx] = !s.trainingWeek[idx];
+  saveState(s);
+  renderWest();
+}
+
+function toggleCan(idx) {
+  const s = getState();
+  s.energyCans[idx] = !s.energyCans[idx];
+  saveState(s);
+  renderWest();
+}
+
+function sodaFail() {
+  const s = getState();
+  s.sodaLastFail = TODAY_KEY;
+  s.sodaStreak = 0;
+  saveState(s);
+  renderWest();
+}
+
+function toggleDiet(idx) {
+  const s = getState();
+  s.diet[idx] = !s.diet[idx];
+  saveState(s);
+  renderWest();
+}
+
+function togglePushup() {
+  const s = getState();
+  s.pushup = !s.pushup;
+  saveState(s);
+  renderWest();
+}
+
+function toggleScoop(idx) {
+  const s = getState();
+  s.creatina[idx] = !s.creatina[idx];
+  saveState(s);
+  renderWest();
+}
+
+// ─── PERIOD STATS ───
+
+function setPeriod(period, btn) {
+  document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateStats(period);
+}
+
+function updateStats(period) {
+  const s = getState();
+  const history = s.history || {};
+  const dayNum = getDayNumber();
+
+  let days;
+  if (period === 'week') days = 7;
+  else if (period === '15') days = 15;
+  else if (period === '30') days = 30;
+  else days = 60;
+
+  const relevantDays = Math.min(days, dayNum);
+  let trainingCount = 0, totalWater = 0, pushupCount = 0, totalScore = 0, scoreDays = 0;
+
+  // Count from history
+  const histKeys = Object.keys(history).sort().slice(-relevantDays);
+  histKeys.forEach(k => {
+    const d = history[k];
+    trainingCount += (d.training || 0);
+    totalWater += (d.water || 0);
+    if (d.pushup) pushupCount++;
+    scoreDays++;
+  });
+
+  // Add today
+  trainingCount += s.trainingWeek.filter(Boolean).length;
+  totalWater += s.water;
+  if (s.pushup) pushupCount++;
+  scoreDays++;
+
+  const avgWater = scoreDays > 0 ? (totalWater / scoreDays / 1000).toFixed(1) : '0.0';
+  const consistency = scoreDays > 0 ? Math.round((pushupCount / scoreDays) * 100) : 0;
+
+  document.getElementById('stat-treino').textContent = trainingCount;
+  document.getElementById('stat-agua').textContent = avgWater + 'L';
+  document.getElementById('stat-flex').textContent = pushupCount;
+  document.getElementById('stat-score').textContent = consistency + '%';
+}
+
+// Init west when page loads
+function initWest() {
+  renderWest();
+  updateStats('week');
+}
+
 // ─── START ───
 initAiGrid();
 initPrompts();
 initAngles();
+
+// Init west if on that page
+if (document.getElementById("page-west").classList.contains("active")) initWest();
 
 // Make AI featured card openable
 document.getElementById('featured-link').addEventListener('click', e => {
