@@ -1570,7 +1570,7 @@
     <div class="section-header fade-up fade-up-5">
       <span class="section-title" style="color:#2dd4bf">PROMPTS JSON</span>
       <div class="section-line" style="background:rgba(45,212,191,0.15)"></div>
-      <span class="section-count">01 PROMPT</span>
+      <span class="section-count">02 PROMPTS</span>
     </div>
 
     <div class="json-grid fade-up fade-up-6" id="json-grid"></div>
@@ -2652,6 +2652,46 @@ Compatível com: Gemini (Nano Banana), Midjourney, Leonardo.ai, GPT Image`,
   "makeup": "minimal natural makeup",
   "expression": "playful, soft, intimate",
   "lighting": "soft natural lighting with gentle highlights on face"
+}`
+  },
+  {
+    id: 'reference-bridge-seed',
+    name: 'Reference Bridge Seed',
+    category: 'Identity Transfer · JSON',
+    desc: 'Transfere a identidade de uma imagem de referência mantendo o estilo visual do prompt base',
+    platform: 'Gemini · Midjourney · Leonardo',
+    gradient: 'linear-gradient(135deg, #0a1020 0%, #0f1e35 60%, #080e1a 100%)',
+    orientation: `Use este JSON junto com uma imagem de referência. A IA extrai a identidade física da sua foto e aplica o estilo visual definido no JSON — iluminação natural, textura de pele realista, enquadramento iPhone.
+
+Como usar:
+• Faça upload da sua imagem de referência (modelo, rosto, pessoa)
+• Cole o JSON completo no prompt
+• A IA preserva: rosto, traços, tom de pele, cabelo da referência
+• A IA aplica: estilo de câmera, iluminação, enquadramento e atmosfera do JSON
+
+Campos com [FROM REFERENCE] são extraídos automaticamente da imagem.
+Campos fixos definem o estilo visual final.
+
+Compatível com: Gemini (Nano Banana), Midjourney --cref, Leonardo Image Prompt`,
+    prompt: `{
+  "identity_source": "reference image — extract and preserve all facial features, bone structure, eye shape, nose, lips, skin tone and hair exactly as shown",
+  "identity_priority": "maximum — do not average, blend or alter the face from the reference image",
+  "age": "[FROM REFERENCE]",
+  "facial_features": "[FROM REFERENCE] — preserve exact likeness with no beautification or structural changes",
+  "skin_tone": "[FROM REFERENCE] — maintain natural texture, pores, any freckles or marks visible in reference",
+  "hair_style": "[FROM REFERENCE] — replicate exact length, volume and fall",
+  "hair_color": "[FROM REFERENCE]",
+  "eyes": "[FROM REFERENCE] — preserve exact eye shape, color and expression",
+
+  "shot_style": "amateur iPhone photography, tight medium close up, natural handheld feel, eye level framing",
+  "framing": "tight medium close up, centered composition, intimate eye level angle, upper torso and face in frame",
+  "lighting": "soft natural lighting with gentle highlights on face, no studio flash, window light feel",
+  "makeup": "minimal natural makeup — enhance what is visible in reference without adding",
+  "expression": "playful, soft, intimate — natural candid energy",
+  "atmosphere": "authentic, unfiltered, real moment captured on phone",
+
+  "technical": "photorealistic, no AI smoothing, visible natural skin texture, consistent identity enforcement",
+  "negative": "no heavy retouching, no face swap artifacts, no composite feel, no model swap, no exaggerated beautification"
 }`
   }
 ];
