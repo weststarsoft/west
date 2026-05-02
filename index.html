@@ -1346,6 +1346,139 @@
     background: rgba(239,68,68,0.05);
   }
 
+
+  /* ─── JSON PROMPTS SECTION ─── */
+  .json-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 80px;
+  }
+
+  .json-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .json-card:hover {
+    border-color: rgba(45,212,191,0.3);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+
+  .json-card-img-placeholder {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    line-height: 1.6;
+    color: rgba(45,212,191,0.5);
+    padding: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .json-card-img-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+  }
+
+  .json-preview-text {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    max-height: 120px;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0));
+    text-align: left;
+    width: 100%;
+  }
+
+  .json-card-body {
+    padding: 20px;
+  }
+
+  .json-card-category {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #2dd4bf;
+    margin-bottom: 8px;
+  }
+
+  .json-card-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  .json-card-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .json-card-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .json-card-platform {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .json-card-cta {
+    font-size: 11px;
+    color: #2dd4bf;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .json-card:hover .json-card-cta { opacity: 1; }
+
+  /* JSON modal variant */
+  .modal-prompt-box.json-style {
+    border-color: rgba(45,212,191,0.25);
+    color: #7dd3b8;
+  }
+  .modal-prompt-box.json-style .copy-btn {
+    background: #2dd4bf;
+    color: #000;
+  }
+  .modal-prompt-box.json-style .copy-btn:hover {
+    background: #5eead4;
+  }
+  .modal-prompt-box.json-style .copy-btn.copied {
+    background: #22c55e;
+    color: #fff;
+  }
+  .modal-category.json-cat { color: #2dd4bf; }
+
 </style>
 </head>
 <body>
@@ -1432,6 +1565,15 @@
     </div>
 
     <div class="prompts-grid fade-up fade-up-4" id="prompts-grid"></div>
+
+    <!-- SECTION: JSON PROMPTS -->
+    <div class="section-header fade-up fade-up-5">
+      <span class="section-title" style="color:#2dd4bf">PROMPTS JSON</span>
+      <div class="section-line" style="background:rgba(45,212,191,0.15)"></div>
+      <span class="section-count">01 PROMPT</span>
+    </div>
+
+    <div class="json-grid fade-up fade-up-6" id="json-grid"></div>
 
     <!-- SECTION: ÂNGULOS -->
     <div class="section-header fade-up fade-up-5">
@@ -2476,10 +2618,95 @@ function initWest() {
   updateStats('week');
 }
 
+
+// ─── JSON PROMPTS DATA ───
+
+const jsonPrompts = [
+  {
+    id: 'natural-portrait-seed',
+    name: 'Natural Portrait Seed',
+    category: 'Character Seed · JSON',
+    desc: 'Seed de personagem feminina para consistência de retrato natural em múltiplas gerações',
+    platform: 'Midjourney · Gemini · Leonardo',
+    gradient: 'linear-gradient(135deg, #051a18 0%, #0a2e2a 60%, #051512 100%)',
+    orientation: `Use este JSON como bloco de identidade base para manter consistência de personagem entre gerações. Cole o JSON diretamente no prompt ou use como referência de atributos físicos.
+
+Como usar:
+• Cole o JSON completo antes da descrição da cena
+• A IA usará os atributos como âncora de identidade
+• Modifique apenas os campos que deseja alterar por geração
+• Combine com Identity Map ou Body Blueprint para máxima consistência
+
+Compatível com: Gemini (Nano Banana), Midjourney, Leonardo.ai, GPT Image`,
+    prompt: `{
+  "age": "young adult",
+  "shot_style": "amateur iPhone photography, tight medium close up, natural handheld feel, eye level framing",
+  "framing": "tight medium close up, centered composition, intimate eye level angle, upper torso and face in frame",
+  "skin_tone": "luminous light to medium skin with soft natural warmth, visible natural texture, soft freckles across the nose and cheeks, no heavy retouching",
+  "hair_style": "long hair cascading over the shoulders, softly styled, relaxed natural fall",
+  "hair_color": "dark brown",
+  "eyes": "expressive brown eyes",
+  "brows": "natural, softly groomed",
+  "nose": "softly defined nose with freckles across the bridge",
+  "lips": "natural lips",
+  "makeup": "minimal natural makeup",
+  "expression": "playful, soft, intimate",
+  "lighting": "soft natural lighting with gentle highlights on face"
+}`
+  }
+];
+
+function initJsonPrompts() {
+  const grid = document.getElementById('json-grid');
+  if (!grid) return;
+
+  grid.innerHTML = jsonPrompts.map((p, i) => {
+    const previewLines = p.prompt.split('\n').slice(0, 8).join('\n');
+    return `
+    <div class="json-card" onclick="openJsonModal(${i})">
+      <div class="json-card-img-placeholder" style="background: ${p.gradient}">
+        <div class="json-preview-text">${escapeHtml(previewLines)}</div>
+      </div>
+      <div class="json-card-body">
+        <div class="json-card-category">${p.category}</div>
+        <div class="json-card-name">${p.name}</div>
+        <div class="json-card-desc">${p.desc}</div>
+      </div>
+      <div class="json-card-footer">
+        <span class="json-card-platform">${p.platform}</span>
+        <span class="json-card-cta">Ver JSON →</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function openJsonModal(index) {
+  const data = jsonPrompts[index];
+  document.getElementById('modal-category').textContent = data.category;
+  document.getElementById('modal-category').className = 'modal-category json-cat';
+  document.getElementById('modal-title').textContent = data.name;
+  document.getElementById('modal-orientation').innerHTML = data.orientation.replace(/\n/g, '<br>');
+  document.getElementById('modal-prompt-text').textContent = data.prompt;
+  document.getElementById('modal-prompt').className = 'modal-prompt-box json-style';
+  currentPromptText = data.prompt;
+
+  const copyBtn = document.querySelector('.copy-btn');
+  copyBtn.textContent = 'Copiar';
+  copyBtn.className = 'copy-btn';
+
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
 // ─── START ───
 initAiGrid();
 initPrompts();
 initAngles();
+initJsonPrompts();
 
 // Init west if on that page
 if (document.getElementById("page-west").classList.contains("active")) initWest();
