@@ -1570,7 +1570,7 @@
     <div class="section-header fade-up fade-up-5">
       <span class="section-title" style="color:#2dd4bf">PROMPTS JSON</span>
       <div class="section-line" style="background:rgba(45,212,191,0.15)"></div>
-      <span class="section-count">02 PROMPTS</span>
+      <span class="section-count">04 PROMPTS</span>
     </div>
 
     <div class="json-grid fade-up fade-up-6" id="json-grid"></div>
@@ -2692,6 +2692,86 @@ Compatível com: Gemini (Nano Banana), Midjourney --cref, Leonardo Image Prompt`
 
   "technical": "photorealistic, no AI smoothing, visible natural skin texture, consistent identity enforcement",
   "negative": "no heavy retouching, no face swap artifacts, no composite feel, no model swap, no exaggerated beautification"
+}`
+  },
+  {
+    id: 'casual-swap',
+    name: 'Casual Swap',
+    category: 'Identity Swap · JSON',
+    desc: 'Insere sua modelo no cenário e roupa da Imagem 2 mantendo estilo iPhone natural',
+    platform: 'Gemini · Nano Banana · Leonardo',
+    gradient: 'linear-gradient(135deg, #0a1a0f 0%, #0f2a1a 60%, #060e0a 100%)',
+    orientation: `Envie DUAS imagens:\n• Imagem 1 → sua modelo (fonte de identidade — rosto, traços, pele, cabelo)\n• Imagem 2 → cena de destino (fonte de cenário, roupa e pose)\n\nO resultado terá:\n✅ Rosto e identidade 100% da Imagem 1\n✅ Cenário, roupa e pose da Imagem 2\n✅ Estilo visual: iPhone, luz natural, textura real, vibe candid\n\nA identidade da Imagem 1 é absoluta — nenhum traço facial deve ser alterado.`,
+    prompt: `{
+  "workflow": "identity_swap",
+
+  "image_1_role": "IDENTITY SOURCE — extract and lock: face, facial bone structure, eye shape and color, nose, lips, skin tone, skin texture, hair color, hair length and style. This person must appear in the final image with 100% fidelity. Do not alter, average or blend her face.",
+  "image_2_role": "SCENE SOURCE — extract and apply: background environment, outfit and clothing, body pose, camera angle, framing, depth of field and scene composition only.",
+
+  "identity_lock": {
+    "priority": "absolute — identity from Image 1 overrides everything",
+    "face": "preserve exact facial features, bone structure and proportions from Image 1",
+    "skin": "maintain exact skin tone and natural texture from Image 1",
+    "hair": "replicate exact hair color, length, volume and fall from Image 1",
+    "no_blend": "do not blend or average features between Image 1 and Image 2"
+  },
+
+  "scene_transfer": {
+    "background": "replicate exactly from Image 2",
+    "outfit": "replicate exactly from Image 2 — adapt to body proportions of Image 1",
+    "pose": "replicate body pose and camera angle from Image 2",
+    "framing": "replicate framing and composition from Image 2"
+  },
+
+  "output_style": {
+    "camera": "amateur iPhone photography, natural handheld feel",
+    "lighting": "soft natural light — adapt Image 2 lighting to feel candid and real",
+    "texture": "visible natural skin texture, no heavy retouching, no AI smoothing",
+    "atmosphere": "authentic, unfiltered, real moment"
+  },
+
+  "negative": "no face swap artifacts, no composite feel, no identity drift, no blending of two faces, no exaggerated beautification, no studio lighting override"
+}`
+  },
+  {
+    id: 'scene-swap',
+    name: 'Scene Swap',
+    category: 'Identity Swap · JSON',
+    desc: 'Insere sua modelo no cenário e roupa da Imagem 2 preservando o estilo visual cinematográfico dela',
+    platform: 'Gemini · Nano Banana · Midjourney',
+    gradient: 'linear-gradient(135deg, #0a0f1a 0%, #0f1a2e 60%, #06080e 100%)',
+    orientation: `Envie DUAS imagens:\n• Imagem 1 → sua modelo (fonte de identidade — rosto, traços, pele, cabelo)\n• Imagem 2 → cena de destino (fonte de tudo: cenário, roupa, pose E estilo visual)\n\nO resultado terá:\n✅ Rosto e identidade 100% da Imagem 1\n✅ Cenário, roupa e pose da Imagem 2\n✅ Estilo visual da Imagem 2 preservado (luz, bokeh, qualidade, atmosfera)\n\nA identidade da Imagem 1 é absoluta — nenhum traço facial deve ser alterado.\nA diferença do Casual Swap: aqui o estilo fotográfico também vem da Imagem 2.`,
+    prompt: `{
+  "workflow": "identity_swap_cinematic",
+
+  "image_1_role": "IDENTITY SOURCE — extract and lock: face, facial bone structure, eye shape and color, nose, lips, skin tone, skin texture, hair color, hair length and style. This person must appear in the final image with 100% fidelity. Do not alter, average or blend her face.",
+  "image_2_role": "SCENE + STYLE SOURCE — extract and apply: background environment, outfit and clothing, body pose, camera angle, framing, depth of field, lighting style, color grading, bokeh quality and overall visual atmosphere.",
+
+  "identity_lock": {
+    "priority": "absolute — identity from Image 1 overrides everything except visual style",
+    "face": "preserve exact facial features, bone structure and proportions from Image 1",
+    "skin": "maintain exact skin tone from Image 1 — adapt texture to match Image 2 visual quality",
+    "hair": "replicate exact hair color, length, volume and fall from Image 1",
+    "no_blend": "do not blend or average features between Image 1 and Image 2"
+  },
+
+  "scene_transfer": {
+    "background": "replicate exactly from Image 2",
+    "outfit": "replicate exactly from Image 2 — adapt to body proportions of Image 1",
+    "pose": "replicate body pose and camera angle from Image 2",
+    "framing": "replicate framing and composition from Image 2"
+  },
+
+  "style_transfer": {
+    "source": "Image 2 — extract and apply all visual style properties",
+    "lighting": "replicate lighting setup, direction, intensity and color temperature from Image 2",
+    "lens": "replicate lens characteristics, focal length feel and bokeh from Image 2",
+    "color_grade": "replicate color palette, contrast and tonal range from Image 2",
+    "atmosphere": "replicate overall mood and visual atmosphere from Image 2",
+    "quality": "match photographic quality and resolution feel of Image 2"
+  },
+
+  "negative": "no face swap artifacts, no composite feel, no identity drift, no blending of two faces, no exaggerated beautification, do not apply candid or iPhone style — follow Image 2 visual quality"
 }`
   }
 ];
