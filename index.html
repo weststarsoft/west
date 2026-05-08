@@ -3526,7 +3526,7 @@ const pipelineData = {
     label: 'Prompt Enviado',
     step: 'Etapa 01 · Identity Extraction',
     type: 'prompt',
-    text: 'Generate a detailed Nano Banana JSON prompt based on the uploaded reference image. The JSON should capture all facial features, skin tone, hair, body proportions and visual signature of the model. Name her (Ya).'
+    text: 'Gere um prompt JSON descrevendo as características físicas dessa modelo para uso no Nano Banana. Foque apenas em: rosto, olhos, sobrancelhas, nariz, lábios, pele, cabelo e proporções corporais. Nomeie a personagem como (Ya). Máximo 2000 caracteres.'
   },
   '01-json': {
     label: 'JSON Gerado',
@@ -3545,7 +3545,7 @@ const pipelineData = {
     label: 'Prompt Enviado',
     step: 'Etapa 02 · Style Transfer JSON',
     type: 'prompt',
-    text: 'IMAGE 1 = IDENTITY SOURCE\nIMAGE 2 = STYLE REFERENCE\n\nMerge both. Keep YA\'s exact face, skin, eyes, hair and facial structure from Image 1. Adapt only pose, lighting, composition, framing and styling from Image 2. Generate the combined JSON.'
+    text: 'Agora enviarei uma imagem de referência. Use ela apenas para: pose, enquadramento, iluminação, cenário, câmera e styling. Mantenha a identidade da Ya intacta. Gere o JSON.'
   },
   '02-json': {
     label: 'JSON Gerado',
