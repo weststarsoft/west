@@ -2499,11 +2499,42 @@ function doReset() {
     document.getElementById('reset-input').focus();
     return;
   }
+
+  // Clear ALL west keys from localStorage
   localStorage.removeItem('west_state');
+  localStorage.removeItem('west_start');
+
+  // Reset project start to TODAY
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  localStorage.setItem('west_project_start', todayStart.toISOString());
+
+  // Force a clean default state and save it immediately
+  const cleanState = {
+    water: 0,
+    waterHistory: [],
+    trainingWeek: [false,false,false,false,false,false,false],
+    energyCans: [false,false,false],
+    energyWeekStart: getWeekStart(),
+    sodaStreak: 0,
+    sodaLastFail: null,
+    diet: [false,false,false,false],
+    pushup: false,
+    creatina: Array(60).fill(false),
+    history: {},
+    lastDate: new Date().toISOString().split('T')[0]
+  };
+  localStorage.setItem('west_state', JSON.stringify(cleanState));
+
+  // Close modal
   document.getElementById('reset-overlay').style.display = 'none';
   document.body.style.overflow = '';
   document.getElementById('reset-input').value = '';
+
+  // Reset UI
   document.querySelectorAll('.period-btn').forEach((b, i) => b.classList.toggle('active', i === 0));
+
+  // Re-render
   renderWest();
   updateStats('week');
 }
@@ -2512,7 +2543,13 @@ function doReset() {
 
 // ─── MODO WEST STATE ───
 
-const PROJECT_START = new Date('2026-05-01T00:00:00');
+function getProjectStart() {
+  const stored = localStorage.getItem('west_project_start');
+  if (stored) return new Date(stored);
+  const d = new Date('2026-05-01T00:00:00');
+  localStorage.setItem('west_project_start', d.toISOString());
+  return d;
+}
 
 const TODAY_KEY = new Date().toISOString().split('T')[0];
 
@@ -2584,7 +2621,7 @@ function getWeekStart() {
 function getDayNumber() {
   const now = new Date();
   now.setHours(0,0,0,0);
-  const diff = Math.floor((now - PROJECT_START) / (1000*60*60*24)) + 1;
+  const diff = Math.floor((now - getProjectStart()) / (1000*60*60*24)) + 1;
   return Math.min(Math.max(diff, 1), 60);
 }
 
