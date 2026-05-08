@@ -1270,9 +1270,10 @@
     background: rgba(0,0,0,0.9);
     backdrop-filter: blur(16px);
     z-index: 2000;
-    display: none; align-items: center; justify-content: center;
+    display: none;
+    align-items: center;
+    justify-content: center;
   }
-  .reset-modal-overlay.open { display: flex; }
   .reset-modal {
     background: var(--surface);
     border: 1px solid rgba(239,68,68,0.3);
@@ -1322,10 +1323,10 @@
     background: rgba(239,68,68,0.1); color: #ef4444;
     font-size: 13px; cursor: pointer; transition: all 0.2s;
     font-family: 'DM Sans', sans-serif; font-weight: 600;
-    opacity: 0.4; pointer-events: none;
+    opacity: 0.4;
   }
   .reset-confirm-btn.ready {
-    opacity: 1; pointer-events: all;
+    opacity: 1;
   }
   .reset-confirm-btn.ready:hover {
     background: rgba(239,68,68,0.2); border-color: #ef4444;
@@ -2851,26 +2852,29 @@ document.getElementById('ai-grid').addEventListener('contextmenu', e => {
 
 // ─── RESET FUNCTIONS ───
 function openResetModal() {
-  const overlay = document.getElementById('reset-modal-overlay');
-  const input = document.getElementById('reset-input');
-  const btn = document.getElementById('reset-confirm-btn');
-  if (!overlay) return;
-  input.value = '';
-  btn.classList.remove('ready');
-  overlay.classList.add('open');
+  document.getElementById('reset-modal-overlay').style.display = 'flex';
+  document.getElementById('reset-input').value = '';
+  document.getElementById('reset-confirm-btn').disabled = true;
+  document.getElementById('reset-confirm-btn').style.opacity = '0.4';
   document.body.style.overflow = 'hidden';
-  setTimeout(() => input.focus(), 100);
+  setTimeout(() => document.getElementById('reset-input').focus(), 100);
 }
 
 function closeResetModal() {
-  document.getElementById('reset-modal-overlay').classList.remove('open');
+  document.getElementById('reset-modal-overlay').style.display = 'none';
   document.body.style.overflow = '';
 }
 
 function checkResetInput() {
   const val = document.getElementById('reset-input').value.trim().toUpperCase();
   const btn = document.getElementById('reset-confirm-btn');
-  btn.classList.toggle('ready', val === 'WEST');
+  if (val === 'WEST') {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+  }
 }
 
 function executeReset() {
@@ -2878,7 +2882,6 @@ function executeReset() {
   if (val !== 'WEST') return;
   localStorage.removeItem('west_state');
   closeResetModal();
-  // Reset period buttons UI
   document.querySelectorAll('.period-btn').forEach((b, i) => {
     b.classList.toggle('active', i === 0);
   });
@@ -2886,18 +2889,10 @@ function executeReset() {
   updateStats('week');
 }
 
-// Close reset modal on overlay click — deferred until DOM ready
-window.addEventListener('DOMContentLoaded', function() {
-  const overlay = document.getElementById('reset-modal-overlay');
-  if (overlay) overlay.addEventListener('click', function(e) {
-    if (e.target === this) closeResetModal();
-  });
-});
-
 </script>
 
 <!-- ─── RESET MODAL ─── -->
-<div class="reset-modal-overlay" id="reset-modal-overlay">
+<div class="reset-modal-overlay" id="reset-modal-overlay" onclick="if(event.target===this)closeResetModal()">
   <div class="reset-modal">
     <div class="reset-modal-icon">⚠️</div>
     <div class="reset-modal-title">Reiniciar Projeto</div>
@@ -2906,7 +2901,7 @@ window.addEventListener('DOMContentLoaded', function() {
     <input type="text" class="reset-confirm-input" id="reset-input" placeholder="WEST" oninput="checkResetInput()" autocomplete="off" />
     <div class="reset-btns">
       <button class="reset-cancel-btn" onclick="closeResetModal()">Cancelar</button>
-      <button class="reset-confirm-btn" id="reset-confirm-btn" onclick="executeReset()">Reiniciar Tudo</button>
+      <button id="reset-confirm-btn" class="reset-confirm-btn" onclick="executeReset()">Reiniciar Tudo</button>
     </div>
   </div>
 </div>
