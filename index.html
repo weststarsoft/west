@@ -398,6 +398,358 @@
     box-shadow: 0 0 0 1px var(--accent2), inset 0 0 30px rgba(59,130,246,0.05);
   }
 
+  /* ─── PIPELINE SECTION ─── */
+  .pipeline-section {
+    margin-bottom: 80px;
+  }
+
+  .pipeline-track-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pipeline-track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .pipeline-track::-webkit-scrollbar { display: none; }
+  .pipeline-track.dragging { cursor: grabbing; }
+
+  .pipeline-fade-right {
+    position: absolute;
+    top: 0; right: 0;
+    width: 120px;
+    height: calc(100% - 16px);
+    background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .pipeline-card {
+    flex: 0 0 460px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.3s ease;
+  }
+  .pipeline-card:hover {
+    border-color: rgba(6,182,212,0.3);
+  }
+
+  .pipeline-card-top {
+    position: relative;
+    padding: 28px 28px 24px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #060f14 0%, #0a1a20 60%, #060c10 100%);
+    overflow: hidden;
+  }
+
+  .pipeline-card-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: #06b6d4;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.08;
+    top: -60px;
+    right: -60px;
+    pointer-events: none;
+  }
+
+  .pipeline-step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    color: rgba(6,182,212,0.12);
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    letter-spacing: -0.02em;
+    pointer-events: none;
+  }
+
+  .pipeline-card-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: #06b6d4;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .pipeline-card-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(6,182,212,0.15);
+  }
+
+  .pipeline-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.06em;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+
+  .pipeline-card-subtitle {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .pipeline-tool-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(6,182,212,0.2);
+    background: rgba(6,182,212,0.06);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: #06b6d4;
+    text-transform: uppercase;
+  }
+  .pipeline-tool-badge .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #06b6d4;
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .pipeline-card-body {
+    padding: 24px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .pipeline-io {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pipeline-io-block {
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .pipeline-io-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .pipeline-io-items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .pipeline-io-items li {
+    font-size: 11px;
+    color: var(--text);
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pipeline-io-items li::before {
+    content: '';
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #06b6d4;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* Panel trigger buttons */
+  .pipeline-panels-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: auto;
+  }
+
+  .pipeline-panel-btn {
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    color: var(--text-muted);
+  }
+  .pipeline-panel-btn:hover {
+    border-color: rgba(6,182,212,0.4);
+    background: rgba(6,182,212,0.06);
+    color: #06b6d4;
+  }
+  .pipeline-panel-btn.active {
+    border-color: #06b6d4;
+    background: rgba(6,182,212,0.1);
+    color: #06b6d4;
+  }
+  .pipeline-panel-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .pipeline-panel-btn span {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  /* Expandable panel */
+  .pipeline-expand {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    border-top: 0px solid var(--border);
+  }
+  .pipeline-expand.open {
+    max-height: 500px;
+    border-top: 1px solid var(--border);
+  }
+
+  .pipeline-expand-inner {
+    padding: 20px 28px;
+    background: #070c10;
+  }
+
+  .pipeline-expand-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: #06b6d4;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* Image panel */
+  .pipeline-img-preview {
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  /* Text/prompt panel */
+  .pipeline-prompt-block {
+    background: var(--surface3);
+    border: 1px solid rgba(6,182,212,0.15);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* JSON panel */
+  .pipeline-json-block {
+    background: var(--surface3);
+    border: 1px solid rgba(6,182,212,0.15);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    line-height: 1.7;
+    color: #2dd4bf;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 200px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(6,182,212,0.2) transparent;
+  }
+
+  .pipeline-copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    background: none;
+    border: 1px solid rgba(6,182,212,0.2);
+    border-radius: 6px;
+    padding: 7px 14px;
+    color: #06b6d4;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: fit-content;
+  }
+  .pipeline-copy-btn:hover {
+    background: rgba(6,182,212,0.1);
+    border-color: #06b6d4;
+  }
+
+  /* scroll hint */
+  .pipeline-scroll-hint {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    opacity: 0.6;
+  }
+  .pipeline-scroll-hint svg {
+    width: 12px;
+    height: 12px;
+    animation: scroll-arrow 1.5s ease-in-out infinite;
+  }
+  @keyframes scroll-arrow {
+    0%, 100% { transform: translateX(0); opacity: 0.6; }
+    50% { transform: translateX(4px); opacity: 1; }
+  }
+
   /* ─── PROMPTS SECTION ─── */
   .prompts-grid {
     display: grid;
@@ -1550,6 +1902,262 @@
         </div>
       </div>
       <div class="ai-grid" id="ai-grid"></div>
+    </div>
+
+    <!-- ─── PIPELINE SECTION ─── -->
+    <div class="pipeline-section fade-up fade-up-3">
+      <div class="section-header" style="margin-bottom:20px">
+        <span class="section-title" style="color:#06b6d4">AI MODEL PIPELINE</span>
+        <div class="section-line" style="background:rgba(6,182,212,0.12)"></div>
+        <span class="section-count" style="color:#06b6d4">03 ETAPAS</span>
+      </div>
+      <div class="pipeline-track-wrapper">
+        <div class="pipeline-track" id="pipeline-track">
+
+          <!-- CARD 01 -->
+          <div class="pipeline-card">
+            <div class="pipeline-card-top">
+              <div class="pipeline-card-glow"></div>
+              <div class="pipeline-step-num">01</div>
+              <div class="pipeline-card-label">Etapa 01</div>
+              <div class="pipeline-card-title">IDENTITY EXTRACTION</div>
+              <div class="pipeline-card-subtitle">Criar a identidade base da personagem</div>
+              <div class="pipeline-tool-badge"><span class="dot"></span>ChatGPT</div>
+            </div>
+            <div class="pipeline-card-body">
+              <div class="pipeline-io">
+                <div class="pipeline-io-block">
+                  <div class="pipeline-io-label">Input</div>
+                  <ul class="pipeline-io-items">
+                    <li>Imagem de referência</li>
+                    <li>Prompt de extração</li>
+                  </ul>
+                </div>
+                <div class="pipeline-io-block">
+                  <div class="pipeline-io-label">Output</div>
+                  <ul class="pipeline-io-items">
+                    <li>JSON de identidade</li>
+                    <li>DNA da personagem</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="pipeline-io-block">
+                <div class="pipeline-io-label">Função no workflow</div>
+                <ul class="pipeline-io-items">
+                  <li>Rosto · olhos · cabelo · pele</li>
+                  <li>Proporções faciais</li>
+                  <li>Assinatura visual da modelo</li>
+                </ul>
+              </div>
+              <div class="pipeline-panels-row">
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-01-img')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                  <span>Referência</span>
+                </button>
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-01-prompt')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+                  <span>Prompt</span>
+                </button>
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-01-json')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg>
+                  <span>JSON</span>
+                </button>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-01-img">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">Imagem de referência</div>
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Referência" class="pipeline-img-preview" onerror="this.style.display='none'">
+                <p style="font-size:11px;color:var(--text-muted);margin-top:10px;font-weight:300">Foto real ou gerada por IA usada como base para extração da identidade.</p>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-01-prompt">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">Prompt enviado</div>
+                <div class="pipeline-prompt-block">Generate a detailed Nano Banana JSON prompt based on the uploaded reference image. The JSON should capture all facial features, skin tone, hair, body proportions and visual signature of the model. Name her (Ya).</div>
+                <button class="pipeline-copy-btn" onclick="copyText(this, 'Generate a detailed Nano Banana JSON prompt based on the uploaded reference image. The JSON should capture all facial features, skin tone, hair, body proportions and visual signature of the model. Name her (Ya).')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copiar prompt
+                </button>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-01-json">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">JSON gerado</div>
+                <div class="pipeline-json-block" id="json-01-content">{"workflow":"base_model_identity_lock","style":"ultra realistic smartphone selfie, natural beauty, modern instagram aesthetic","subject":{"gender":"female","age_range":"20-25","ethnicity_appearance":"mixed latina / mediterranean appearance","skin":{"tone":"warm light tan","texture":"smooth natural skin with soft glow"},"face":{"shape":"oval face with soft defined jawline","cheekbones":"high cheekbones"},"eyes":{"shape":"almond shaped eyes","color":"light hazel brown","eyelashes":"long curled lashes","eyebrows":"thick dark eyebrows with sharp natural arch"},"lips":{"shape":"full voluminous lips","finish":"natural glossy lips"},"hair":{"color":"deep dark brown almost black","length":"long","texture":"thick wavy hair","style":"loose natural waves with soft volume"}}}</div>
+                <button class="pipeline-copy-btn" onclick="copyElementText(this, 'json-01-content')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copiar JSON
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 02 -->
+          <div class="pipeline-card">
+            <div class="pipeline-card-top">
+              <div class="pipeline-card-glow"></div>
+              <div class="pipeline-step-num">02</div>
+              <div class="pipeline-card-label">Etapa 02</div>
+              <div class="pipeline-card-title">STYLE TRANSFER JSON</div>
+              <div class="pipeline-card-subtitle">Transferir direção visual mantendo a identidade</div>
+              <div class="pipeline-tool-badge"><span class="dot"></span>ChatGPT</div>
+            </div>
+            <div class="pipeline-card-body">
+              <div class="pipeline-io">
+                <div class="pipeline-io-block">
+                  <div class="pipeline-io-label">Input</div>
+                  <ul class="pipeline-io-items">
+                    <li>DNA da YA (Etapa 01)</li>
+                    <li>Imagem de referência visual</li>
+                  </ul>
+                </div>
+                <div class="pipeline-io-block">
+                  <div class="pipeline-io-label">Output</div>
+                  <ul class="pipeline-io-items">
+                    <li>JSON de adaptação</li>
+                    <li>Identidade + estilo mesclados</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="pipeline-io-block">
+                <div class="pipeline-io-label">Função no workflow</div>
+                <ul class="pipeline-io-items">
+                  <li>Pose · iluminação · composição</li>
+                  <li>Enquadramento · cenário</li>
+                  <li>Direção cinematográfica</li>
+                </ul>
+              </div>
+              <div class="pipeline-panels-row">
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-02-img')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                  <span>Referência</span>
+                </button>
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-02-prompt')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+                  <span>Prompt</span>
+                </button>
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-02-json')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg>
+                  <span>JSON</span>
+                </button>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-02-img">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">Imagem de referência visual</div>
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80" alt="Referência estilo" class="pipeline-img-preview" onerror="this.style.display='none'">
+                <p style="font-size:11px;color:var(--text-muted);margin-top:10px;font-weight:300">Imagem 2 — fonte de pose, cenário, luz, composição e styling. A identidade da YA é sempre preservada.</p>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-02-prompt">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">Prompt enviado</div>
+                <div class="pipeline-prompt-block">IMAGE 1 = IDENTITY SOURCE
+IMAGE 2 = STYLE REFERENCE
+
+Merge both. Keep YA's exact face, skin, eyes, hair and facial structure from Image 1. Adapt only pose, lighting, composition, framing and styling from Image 2. Generate the combined JSON.</div>
+                <button class="pipeline-copy-btn" onclick="copyText(this, 'IMAGE 1 = IDENTITY SOURCE\nIMAGE 2 = STYLE REFERENCE\n\nMerge both. Keep YA\'s exact face, skin, eyes, hair and facial structure from Image 1. Adapt only pose, lighting, composition, framing and styling from Image 2. Generate the combined JSON.')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copiar prompt
+                </button>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-02-json">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">JSON gerado</div>
+                <div class="pipeline-json-block" id="json-02-content">{"workflow":"identity_lock_style_transfer","subject":{"name":"YA","identity_lock":{"preserve_exact_face":true,"preserve_skin_tone":true,"preserve_eye_shape_color":true,"preserve_hair_texture":true,"preserve_facial_structure":true,"description":"YA with warm light-medium tan skin, almond hazel-green eyes, thick dark brows, full natural lips, oval face, long dark wavy hair"}},"style_reference":{"pose":{"stance":"standing pose with hands on waist"},"lighting":{"type":"soft studio lighting","direction":"front diffused light"},"background":{"type":"minimal seamless backdrop","color":"light gray studio background"},"styling":{"top":"white fitted tank top","makeup":"natural soft glam"}},"generation":{"priority":"maintain YA identity exactly while adapting only pose, lighting, composition and styling"}}</div>
+                <button class="pipeline-copy-btn" onclick="copyElementText(this, 'json-02-content')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copiar JSON
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 03 -->
+          <div class="pipeline-card">
+            <div class="pipeline-card-top">
+              <div class="pipeline-card-glow"></div>
+              <div class="pipeline-step-num">03</div>
+              <div class="pipeline-card-label">Etapa 03</div>
+              <div class="pipeline-card-title">FINAL GENERATION</div>
+              <div class="pipeline-card-subtitle">Gerar nova imagem consistente da personagem</div>
+              <div class="pipeline-tool-badge"><span class="dot"></span>Gemini · Nano Banana</div>
+            </div>
+            <div class="pipeline-card-body">
+              <div class="pipeline-io">
+                <div class="pipeline-io-block">
+                  <div class="pipeline-io-label">Input</div>
+                  <ul class="pipeline-io-items">
+                    <li>Imagem base da YA</li>
+                    <li>JSON Style Transfer</li>
+                  </ul>
+                </div>
+                <div class="pipeline-io-block">
+                  <div class="pipeline-io-label">Output</div>
+                  <ul class="pipeline-io-items">
+                    <li>Geração consistente</li>
+                    <li>Identidade preservada</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="pipeline-io-block">
+                <div class="pipeline-io-label">Mantém · Adapta</div>
+                <ul class="pipeline-io-items">
+                  <li>Consistência facial · identidade visual</li>
+                  <li>Pose · luz · ambiente · composição</li>
+                  <li>Coerência entre gerações</li>
+                </ul>
+              </div>
+              <div class="pipeline-panels-row">
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-03-img')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                  <span>Base da YA</span>
+                </button>
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-03-json')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 8l-4 4 4 4M17 8l4 4-4 4M14 4l-4 16"/></svg>
+                  <span>JSON Input</span>
+                </button>
+                <button class="pipeline-panel-btn" onclick="togglePanel(this, 'panel-03-result')">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  <span>Resultado</span>
+                </button>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-03-img">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">Imagem base da YA</div>
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Base YA" class="pipeline-img-preview" onerror="this.style.display='none'">
+                <p style="font-size:11px;color:var(--text-muted);margin-top:10px;font-weight:300">Imagem de referência da YA enviada junto com o JSON para o Nano Banana.</p>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-03-json">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">JSON de entrada</div>
+                <div class="pipeline-json-block" id="json-03-content">{"workflow":"identity_lock_style_transfer","subject":{"name":"YA","identity_lock":{"preserve_exact_face":true,"preserve_skin_tone":true,"preserve_eye_shape_color":true,"preserve_hair_texture":true,"preserve_facial_structure":true}},"style_reference":{"pose":{"stance":"standing pose with hands on waist"},"lighting":{"type":"soft studio lighting"},"background":{"type":"minimal seamless backdrop","color":"light gray studio background"},"styling":{"top":"white fitted tank top"}}}</div>
+                <button class="pipeline-copy-btn" onclick="copyElementText(this, 'json-03-content')">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                  Copiar JSON
+                </button>
+              </div>
+            </div>
+            <div class="pipeline-expand" id="panel-03-result">
+              <div class="pipeline-expand-inner">
+                <div class="pipeline-expand-title">Resultado gerado</div>
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80" alt="Resultado" class="pipeline-img-preview" onerror="this.style.display='none'">
+                <p style="font-size:11px;color:var(--text-muted);margin-top:10px;font-weight:300">Output final do Nano Banana — YA com identidade preservada e estilo adaptado da referência.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="pipeline-fade-right"></div>
+      </div>
+      <div class="pipeline-scroll-hint">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Arraste para ver as etapas
+      </div>
     </div>
 
     <div class="section-header fade-up fade-up-3">
@@ -2899,6 +3507,60 @@ function initWest() {
   renderWest();
   updateStats('week');
 }
+
+// ─── PIPELINE PANEL TOGGLE ───
+function togglePanel(btn, panelId) {
+  const card = btn.closest('.pipeline-card');
+  const allBtns = card.querySelectorAll('.pipeline-panel-btn');
+  const allPanels = card.querySelectorAll('.pipeline-expand');
+  const panel = document.getElementById(panelId);
+  const isOpen = panel.classList.contains('open');
+
+  // close all panels and deactivate all buttons in this card
+  allPanels.forEach(p => p.classList.remove('open'));
+  allBtns.forEach(b => b.classList.remove('active'));
+
+  if (!isOpen) {
+    panel.classList.add('open');
+    btn.classList.add('active');
+  }
+}
+
+// ─── PIPELINE COPY ───
+function copyText(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copiado!';
+    setTimeout(() => { btn.innerHTML = original; }, 2000);
+  });
+}
+
+function copyElementText(btn, elementId) {
+  const text = document.getElementById(elementId).textContent;
+  copyText(btn, text);
+}
+
+// ─── PIPELINE DRAG SCROLL ───
+(function() {
+  const track = document.getElementById('pipeline-track');
+  if (!track) return;
+  let isDown = false, startX, scrollLeft;
+  track.addEventListener('mousedown', e => {
+    isDown = true;
+    track.classList.add('dragging');
+    startX = e.pageX - track.offsetLeft;
+    scrollLeft = track.scrollLeft;
+  });
+  track.addEventListener('mouseleave', () => { isDown = false; track.classList.remove('dragging'); });
+  track.addEventListener('mouseup', () => { isDown = false; track.classList.remove('dragging'); });
+  track.addEventListener('mousemove', e => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.2;
+    track.scrollLeft = scrollLeft - walk;
+  });
+})();
 
 // ─── START ───
 initAiGrid();
