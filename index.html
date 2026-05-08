@@ -2851,10 +2851,15 @@ document.getElementById('ai-grid').addEventListener('contextmenu', e => {
 
 // ─── RESET FUNCTIONS ───
 function openResetModal() {
-  document.getElementById('reset-modal-overlay').classList.add('open');
-  document.getElementById('reset-input').value = '';
-  document.getElementById('reset-confirm-btn').classList.remove('ready');
+  const overlay = document.getElementById('reset-modal-overlay');
+  const input = document.getElementById('reset-input');
+  const btn = document.getElementById('reset-confirm-btn');
+  if (!overlay) return;
+  input.value = '';
+  btn.classList.remove('ready');
+  overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
+  setTimeout(() => input.focus(), 100);
 }
 
 function closeResetModal() {
@@ -2872,8 +2877,11 @@ function executeReset() {
   const val = document.getElementById('reset-input').value.trim().toUpperCase();
   if (val !== 'WEST') return;
   localStorage.removeItem('west_state');
-  localStorage.removeItem('west_start');
   closeResetModal();
+  // Reset period buttons UI
+  document.querySelectorAll('.period-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === 0);
+  });
   renderWest();
   updateStats('week');
 }
