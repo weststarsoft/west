@@ -1374,6 +1374,13 @@
   }
   .habit-card-title-wrap { display: flex; align-items: center; gap: 12px; }
   .habit-card-emoji { font-size: 28px; }
+  .habit-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .habit-icon svg { width: 26px; height: 26px; }
   .habit-card-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 24px;
@@ -2278,7 +2285,12 @@
       <div class="habit-card" id="card-agua">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">💧</span>
+            <div class="habit-icon" style="background:rgba(56,189,248,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13z"/>
+                <path d="M8.5 17a3.5 3.5 0 0 0 5 0" opacity="0.5"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Água</div>
               <div class="habit-card-subtitle">Meta: 3 litros por dia</div>
@@ -2301,7 +2313,17 @@
       <div class="habit-card" id="card-treino">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">🏋️</span>
+            <div class="habit-icon" style="background:rgba(200,241,53,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c8f135" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 5v14M18 5v14"/>
+                <path d="M3 8v8M21 8v8"/>
+                <path d="M6 12h12"/>
+                <rect x="4" y="7" width="2" height="10" rx="1"/>
+                <rect x="18" y="7" width="2" height="10" rx="1"/>
+                <rect x="1" y="9" width="2" height="6" rx="1"/>
+                <rect x="21" y="9" width="2" height="6" rx="1"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Treino</div>
               <div class="habit-card-subtitle" id="treino-subtitle">Meta: 5x por semana</div>
@@ -2318,7 +2340,11 @@
       <div class="habit-card" id="card-energy">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">⚡</span>
+            <div class="habit-icon" style="background:rgba(59,130,246,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M13 2L4.5 13.5H12L11 22L19.5 10.5H12L13 2z"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Energético</div>
               <div class="habit-card-subtitle">Limite: 3 por semana</div>
@@ -2347,7 +2373,14 @@
       <div class="habit-card" id="card-soda">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">🚫</span>
+            <div class="habit-icon" style="background:rgba(239,68,68,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 3h10l1 4H6L7 3z"/>
+                <path d="M6 7v13a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7"/>
+                <path d="M10 11l4 4M14 11l-4 4"/>
+                <path d="M9 7c0-1 .5-2 1.5-2.5"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Refrigerante</div>
               <div class="habit-card-subtitle">Meta: Zero absoluto</div>
@@ -2364,7 +2397,15 @@
       <div class="habit-card" id="card-morning">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">🌅</span>
+            <div class="habit-icon" style="background:rgba(245,158,11,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 7a5 5 0 0 1 5 5"/>
+                <path d="M12 7a5 5 0 0 0-5 5"/>
+                <path d="M5 12H3M21 12h-2M12 3V1M18.36 5.64l-1.41 1.41M6.05 6.05 4.64 4.64"/>
+                <path d="M3 17h18"/>
+                <path d="M6 20h12"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Rotina Matinal</div>
               <div class="habit-card-subtitle">Ao acordar — 3 hábitos</div>
@@ -2395,7 +2436,16 @@
       <div class="habit-card" id="card-pushup">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">💪</span>
+            <div class="habit-icon" style="background:rgba(200,241,53,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c8f135" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="17" cy="4" r="1.5"/>
+                <path d="M3 17l4-4 3 2 4-5 3 3"/>
+                <path d="M7 13l-4 4"/>
+                <path d="M10 15l2-2"/>
+                <path d="M14 10l3 3"/>
+                <path d="M7 13V9l4 2"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Flexões</div>
               <div class="habit-card-subtitle">Meta: 100 por dia</div>
@@ -2421,7 +2471,14 @@
       <div class="habit-card full-width" id="card-creatina">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">🥄</span>
+            <div class="habit-icon" style="background:rgba(168,85,247,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="7" y="6" width="10" height="15" rx="2"/>
+                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                <path d="M10 11h4M12 9v4"/>
+                <path d="M9 17h6" opacity="0.5"/>
+              </svg>
+            </div>
             <div>
               <div class="habit-card-title">Creatina</div>
               <div class="habit-card-subtitle">60 doses · 1 por dia</div>
