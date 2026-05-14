@@ -1511,35 +1511,68 @@
   .creatine-count { font-size: 11px; color: var(--text-muted); margin-top: 10px; font-weight: 300; }
 
   /* Push-ups */
-  .pushup-wrap { display: flex; align-items: center; gap: 24px; margin-top: 8px; }
-  .pushup-btn {
-    width: 80px; height: 80px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
+  .pushup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px; }
+  .pushup-half {
     background: var(--surface3);
-    font-size: 40px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
     cursor: pointer;
-    transition: all 0.3s;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    transition: all 0.25s;
+    text-align: center;
   }
-  .pushup-btn:hover { border-color: var(--accent); transform: scale(1.05); }
-  .pushup-btn.done {
+  .pushup-half:hover { border-color: var(--accent); background: rgba(200,241,53,0.05); }
+  .pushup-half.done {
     border-color: var(--accent);
     background: rgba(200,241,53,0.1);
-    box-shadow: 0 0 20px rgba(200,241,53,0.2);
+    box-shadow: 0 0 16px rgba(200,241,53,0.15);
   }
-  .pushup-text { flex: 1; }
-  .pushup-status {
+  .pushup-half-icon { font-size: 28px; line-height: 1; }
+  .pushup-half-label {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px;
-    letter-spacing: 0.05em;
+    font-size: 16px;
+    letter-spacing: 0.06em;
     color: var(--text-muted);
-    line-height: 1;
-    transition: color 0.3s;
+    transition: color 0.25s;
   }
-  .pushup-status.done { color: var(--accent); }
-  .pushup-sub { font-size: 12px; color: var(--text-muted); font-weight: 300; margin-top: 4px; }
+  .pushup-half.done .pushup-half-label { color: var(--accent); }
+  .pushup-half-sub { font-size: 10px; color: var(--text-muted); font-weight: 300; }
+
+  /* Morning routine */
+  .morning-items { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .morning-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .morning-item:hover { border-color: rgba(200,241,53,0.3); }
+  .morning-item.checked {
+    border-color: var(--accent);
+    background: rgba(200,241,53,0.07);
+  }
+  .morning-check {
+    width: 20px; height: 20px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .morning-item.checked .morning-check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+  .morning-item-label { font-size: 13px; color: var(--text); font-weight: 400; flex: 1; }
+  .morning-item-sub { font-size: 10px; color: var(--text-muted); font-weight: 300; }
 
   /* Diet card */
   .diet-items { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
@@ -2327,34 +2360,33 @@
         <button class="nosoda-btn" id="soda-fail-btn" onclick="sodaFail()">⚠ Tomei hoje</button>
       </div>
 
-      <!-- ALIMENTAÇÃO -->
-      <div class="habit-card" id="card-diet">
+      <!-- ROTINA MATINAL -->
+      <div class="habit-card" id="card-morning">
         <div class="habit-card-header">
           <div class="habit-card-title-wrap">
-            <span class="habit-card-emoji">🥩</span>
+            <span class="habit-card-emoji">🌅</span>
             <div>
-              <div class="habit-card-title">Alimentação</div>
-              <div class="habit-card-subtitle">Protocolo diário</div>
+              <div class="habit-card-title">Rotina Matinal</div>
+              <div class="habit-card-subtitle">Ao acordar — 3 hábitos</div>
             </div>
           </div>
-          <span class="habit-badge badge-pending" id="badge-diet">0/4</span>
+          <span class="habit-badge badge-pending" id="badge-morning">0/3</span>
         </div>
-        <div class="diet-items">
-          <div class="diet-item" id="diet-0" onclick="toggleDiet(0)">
-            <div class="diet-check" id="diet-check-0"></div>
-            <span class="diet-item-text">🚫 Zero doce</span>
+        <div class="morning-items">
+          <div class="morning-item" id="morning-0" onclick="toggleMorning(0)">
+            <div class="morning-check" id="morning-check-0"></div>
+            <span class="morning-item-label">💪 50 Flexões</span>
+            <span class="morning-item-sub">Manhã</span>
           </div>
-          <div class="diet-item" id="diet-1" onclick="toggleDiet(1)">
-            <div class="diet-check" id="diet-check-1"></div>
-            <span class="diet-item-text">🚫 Zero industrializado</span>
+          <div class="morning-item" id="morning-1" onclick="toggleMorning(1)">
+            <div class="morning-check" id="morning-check-1"></div>
+            <span class="morning-item-label">🧪 Creatina</span>
+            <span class="morning-item-sub">1 scoop</span>
           </div>
-          <div class="diet-item" id="diet-2" onclick="toggleDiet(2)">
-            <div class="diet-check" id="diet-check-2"></div>
-            <span class="diet-item-text">🚫 Zero processado</span>
-          </div>
-          <div class="diet-item" id="diet-3" onclick="toggleDiet(3)">
-            <div class="diet-check" id="diet-check-3"></div>
-            <span class="diet-item-text">✅ Carne, ovos e frutas</span>
+          <div class="morning-item" id="morning-2" onclick="toggleMorning(2)">
+            <div class="morning-check" id="morning-check-2"></div>
+            <span class="morning-item-label">💧 500ml de água</span>
+            <span class="morning-item-sub">Primeiro copo do dia</span>
           </div>
         </div>
       </div>
@@ -2369,13 +2401,18 @@
               <div class="habit-card-subtitle">Meta: 100 por dia</div>
             </div>
           </div>
-          <span class="habit-badge badge-pending" id="badge-pushup">Pendente</span>
+          <span class="habit-badge badge-pending" id="badge-pushup">0/2</span>
         </div>
-        <div class="pushup-wrap">
-          <button class="pushup-btn" id="pushup-btn" onclick="togglePushup()">💪</button>
-          <div class="pushup-text">
-            <div class="pushup-status" id="pushup-status">Não feito</div>
-            <div class="pushup-sub" id="pushup-sub">Clique no ícone para confirmar suas 100 flexões</div>
+        <div class="pushup-grid">
+          <div class="pushup-half" id="pushup-am" onclick="togglePushup('am')">
+            <div class="pushup-half-icon">🌅</div>
+            <div class="pushup-half-label">50 Manhã</div>
+            <div class="pushup-half-sub">Ao acordar</div>
+          </div>
+          <div class="pushup-half" id="pushup-pm" onclick="togglePushup('pm')">
+            <div class="pushup-half-icon">🌙</div>
+            <div class="pushup-half-label">50 Noite</div>
+            <div class="pushup-half-sub">Antes de dormir</div>
           </div>
         </div>
       </div>
@@ -3131,8 +3168,8 @@ function doReset() {
     energyWeekStart: getWeekStart(),
     sodaStreak: 0,
     sodaLastFail: null,
-    diet: [false,false,false,false],
-    pushup: false,
+    pushup: { am: false, pm: false },
+    morning: [false, false, false],
     creatina: Array(60).fill(false),
     history: {},
     lastDate: new Date().toISOString().split('T')[0]
@@ -3175,8 +3212,8 @@ function getState() {
     energyWeekStart: getWeekStart(),
     sodaStreak: 0,
     sodaLastFail: null,
-    diet: [false,false,false,false],
-    pushup: false,
+    pushup: { am: false, pm: false },
+    morning: [false, false, false],
     creatina: Array(60).fill(false),
     // history per day
     history: {}
@@ -3200,8 +3237,8 @@ function getState() {
       }
       s.water = 0;
       s.waterHistory = [];
-      s.pushup = false;
-      s.diet = [false,false,false,false];
+      s.pushup = { am: false, pm: false };
+      s.morning = [false, false, false];
       s.lastDate = TODAY_KEY;
       // Reset energy if new week
       const newWeekStart = getWeekStart();
@@ -3295,23 +3332,28 @@ function renderWest() {
   const sodaFailed = s.sodaLastFail === TODAY_KEY;
   setBadge('badge-soda', sodaFailed ? 'warn' : 'ok', sodaFailed ? '⚠ Falhou hoje' : 'Zero hoje');
 
-  // Diet
-  s.diet.forEach((v, i) => {
-    document.getElementById('diet-' + i).classList.toggle('checked', v);
-    document.getElementById('diet-check-' + i).textContent = v ? '✓' : '';
+  // Morning routine
+  const morning = s.morning || [false, false, false];
+  morning.forEach((v, i) => {
+    const item = document.getElementById('morning-' + i);
+    const check = document.getElementById('morning-check-' + i);
+    if (item) item.classList.toggle('checked', v);
+    if (check) check.textContent = v ? '✓' : '';
   });
-  const dietCount = s.diet.filter(Boolean).length;
-  setBadge('badge-diet', dietCount === 4 ? 'ok' : 'pending', dietCount + '/4');
-  document.getElementById('card-diet').classList.toggle('completed', dietCount === 4);
+  const morningCount = morning.filter(Boolean).length;
+  setBadge('badge-morning', morningCount === 3 ? 'ok' : 'pending', morningCount + '/3');
+  const morningCard = document.getElementById('card-morning');
+  if (morningCard) morningCard.classList.toggle('completed', morningCount === 3);
 
   // Pushup
-  const pushDone = s.pushup;
-  document.getElementById('pushup-btn').classList.toggle('done', pushDone);
-  document.getElementById('pushup-status').textContent = pushDone ? '100 Flexões ✓' : 'Não feito';
-  document.getElementById('pushup-status').classList.toggle('done', pushDone);
-  document.getElementById('pushup-sub').textContent = pushDone ? 'Parabéns! Meta do dia concluída.' : 'Clique no ícone para confirmar suas 100 flexões';
-  setBadge('badge-pushup', pushDone ? 'ok' : 'pending', pushDone ? '✓ Feito' : 'Pendente');
-  document.getElementById('card-pushup').classList.toggle('completed', pushDone);
+  const pushup = s.pushup || { am: false, pm: false };
+  const pushAm = document.getElementById('pushup-am');
+  const pushPm = document.getElementById('pushup-pm');
+  if (pushAm) pushAm.classList.toggle('done', pushup.am);
+  if (pushPm) pushPm.classList.toggle('done', pushup.pm);
+  const pushCount = (pushup.am ? 1 : 0) + (pushup.pm ? 1 : 0);
+  setBadge('badge-pushup', pushCount === 2 ? 'ok' : 'pending', pushCount + '/2');
+  document.getElementById('card-pushup').classList.toggle('completed', pushCount === 2);
 
   // Creatina
   const grid = document.getElementById('creatine-grid');
@@ -3328,8 +3370,8 @@ function renderWest() {
   // Daily score
   let score = 0;
   if (waterDone) score++;
-  if (s.pushup) score++;
-  if (dietCount === 4) score++;
+  if (pushup.am && pushup.pm) score++;
+  if (morningCount === 3) score++;
   if (s.creatina[dayNum-1]) score++;
   if (!sodaFailed) score++;
   // Check if trained today
@@ -3407,16 +3449,46 @@ function sodaFail() {
   renderWest();
 }
 
-function toggleDiet(idx) {
+function toggleMorning(idx) {
   const s = getState();
-  s.diet[idx] = !s.diet[idx];
+  s.morning = s.morning || [false, false, false];
+  s.morning[idx] = !s.morning[idx];
+  // Sync with respective panels
+  if (idx === 0) {
+    // 50 flexões manhã
+    s.pushup = s.pushup || { am: false, pm: false };
+    s.pushup.am = s.morning[0];
+  } else if (idx === 1) {
+    // creatina — mark today's scoop
+    const dayNum = getDayNumber();
+    s.creatina = s.creatina || Array(60).fill(false);
+    s.creatina[dayNum - 1] = s.morning[1];
+  } else if (idx === 2) {
+    // 500ml água
+    if (s.morning[2]) {
+      s.water = Math.min((s.water || 0) + 500, 3000);
+      s.waterHistory = s.waterHistory || [];
+      s.waterHistory.push(500);
+    } else {
+      // undo the 500ml if unchecked
+      s.water = Math.max((s.water || 0) - 500, 0);
+      const idx500 = (s.waterHistory || []).lastIndexOf(500);
+      if (idx500 !== -1) s.waterHistory.splice(idx500, 1);
+    }
+  }
   saveState(s);
   renderWest();
 }
 
-function togglePushup() {
+function togglePushup(slot) {
   const s = getState();
-  s.pushup = !s.pushup;
+  s.pushup = s.pushup || { am: false, pm: false };
+  s.pushup[slot] = !s.pushup[slot];
+  // Sync morning if toggling am
+  if (slot === 'am') {
+    s.morning = s.morning || [false, false, false];
+    s.morning[0] = s.pushup.am;
+  }
   saveState(s);
   renderWest();
 }
