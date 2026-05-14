@@ -1161,7 +1161,7 @@
   /* Exercise cards grid */
   .exercicio-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 12px;
     margin-bottom: 20px;
   }
@@ -1201,6 +1201,39 @@
   }
   .ex-card-alt-btn:hover { border-color: rgba(239,68,68,0.4); color: #ef4444; }
   .ex-card-alt-btn.on { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.08); }
+
+  /* Exercise selector */
+  .ex-card-selector-wrap {
+    padding: 0 12px 10px;
+  }
+  .ex-card-selector {
+    width: 100%; background: var(--surface3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px; color: var(--text);
+    font-family: 'Space Mono', monospace; font-size: 10px;
+    letter-spacing: 0.05em; cursor: pointer; transition: border-color 0.2s;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23506070'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 10px center;
+    padding-right: 28px;
+  }
+  .ex-card-selector:focus { outline: none; border-color: rgba(239,68,68,0.4); }
+  .ex-card-selector option { background: #0d1117; color: var(--text); }
+  .ex-card-selector.selected { border-color: rgba(239,68,68,0.25); color: var(--text); }
+
+  /* Muscle placeholder */
+  .ex-card-muscle-placeholder {
+    margin: 0 12px 10px;
+    border-radius: 10px;
+    border: 1px dashed rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.02);
+    height: 90px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ex-card-muscle-placeholder-label {
+    font-family: 'Space Mono', monospace; font-size: 7px;
+    letter-spacing: 0.15em; color: rgba(255,255,255,0.1);
+    text-transform: uppercase;
+  }
 
   /* Body SVG */
   .ex-card-body-svg {
@@ -2731,7 +2764,7 @@
     <div class="treino-tabs">
       <div class="treino-tab active" id="tab-a" onclick="switchTreino('a')">
         <div class="treino-tab-letter">A</div>
-        <div class="treino-tab-label">Peito · Tríceps</div>
+        <div class="treino-tab-label">Peito · Ombro · Tríceps</div>
       </div>
       <div class="treino-tab" id="tab-b" onclick="switchTreino('b')">
         <div class="treino-tab-letter">B</div>
@@ -2739,7 +2772,7 @@
       </div>
       <div class="treino-tab" id="tab-c" onclick="switchTreino('c')">
         <div class="treino-tab-letter">C</div>
-        <div class="treino-tab-label">Pernas · Ombro · Core</div>
+        <div class="treino-tab-label">Pernas · Panturrilha</div>
       </div>
     </div>
 
@@ -2748,7 +2781,7 @@
       <div class="treino-ficha-header">
         <div>
           <div class="treino-ficha-title">TREINO A</div>
-          <div class="treino-ficha-focus">Peito + Tríceps</div>
+          <div class="treino-ficha-focus">Peito + Ombro + Tríceps</div>
         </div>
       </div>
       <div class="exercicio-grid" id="list-a"></div>
@@ -2812,14 +2845,14 @@
       <div class="treino-ficha-header">
         <div>
           <div class="treino-ficha-title">TREINO C</div>
-          <div class="treino-ficha-focus">Pernas + Ombro + Core</div>
+          <div class="treino-ficha-focus">Pernas + Panturrilha</div>
         </div>
       </div>
       <div class="exercicio-grid" id="list-c"></div>
       <div class="treino-progress-wrap">
         <div class="treino-progress-top">
           <div class="treino-progress-label">Progresso da sessão</div>
-          <div class="treino-progress-count" id="progress-count-c"><span>0</span>/6</div>
+          <div class="treino-progress-count" id="progress-count-c"><span>0</span>/5</div>
         </div>
         <div class="treino-progress-bar-bg">
           <div class="treino-progress-bar-fill" id="progress-bar-c" style="width:0%"></div>
@@ -4118,31 +4151,63 @@ function copyElementText(btn, elementId) {
 })();
 
 // ─── TREINO DATA ───
+// ─── EXERCISE OPTIONS PER GROUP ───
+const exerciseOptions = {
+  peito: [
+    'Supino reto barra', 'Supino reto halteres', 'Supino inclinado halteres',
+    'Supino inclinado barra', 'Crucifixo halteres', 'Crossover cabo'
+  ],
+  ombro: [
+    'Desenvolvimento halteres', 'Desenvolvimento barra',
+    'Elevação lateral halteres', 'Elevação lateral cabo'
+  ],
+  triceps: [
+    'Tríceps pulley corda', 'Tríceps testa barra'
+  ],
+  costas: [
+    'Barra fixa pronada', 'Puxada frontal cabo', 'Remada curvada barra',
+    'Remada unilateral haltere', 'Remada cavalinho', 'Pulldown triângulo'
+  ],
+  biceps: [
+    'Rosca direta barra', 'Rosca direta halteres', 'Rosca alternada halteres',
+    'Rosca martelo', 'Rosca concentrada', 'Rosca cabo'
+  ],
+  pernas: [
+    'Agachamento livre barra', 'Agachamento hack máquina', 'Leg press 45°',
+    'Agachamento búlgaro', 'Avanço halteres', 'Cadeira extensora'
+  ],
+  posterior: [
+    'Mesa flexora', 'Cadeira flexora', 'Stiff halteres', 'Levantamento terra'
+  ],
+  panturrilha: [
+    'Panturrilha em pé máquina', 'Panturrilha no leg press'
+  ],
+};
+
 const treinoData = {
   a: [
-    { name: 'Supino reto com barra',     alt: 'Supino reto com halteres',  sets: 4, reps: 10,     muscle: 'peito' },
-    { name: 'Supino inclinado halteres', alt: 'Cross over inclinado',       sets: 3, reps: 12,     muscle: 'peito' },
-    { name: 'Crucifixo halteres',        alt: 'Peck deck',                  sets: 3, reps: 12,     muscle: 'peito' },
-    { name: 'Tríceps pulley corda',      alt: 'Tríceps barra reta',         sets: 4, reps: 12,     muscle: 'triceps' },
-    { name: 'Tríceps francês',           alt: 'Tríceps testa',              sets: 3, reps: 12,     muscle: 'triceps' },
-    { name: 'Mergulho no banco',         alt: 'Mergulho nas paralelas',     sets: 3, reps: 'Falha',muscle: 'triceps' },
+    { group: 'peito',    sets: 4, reps: 10 },
+    { group: 'peito',    sets: 3, reps: 12 },
+    { group: 'peito',    sets: 3, reps: 12 },
+    { group: 'ombro',    sets: 4, reps: 10 },
+    { group: 'ombro',    sets: 3, reps: 15 },
+    { group: 'triceps',  sets: 4, reps: 12 },
   ],
   b: [
-    { name: 'Puxada frontal',            alt: 'Barra fixa',                 sets: 4, reps: 10,     muscle: 'costas' },
-    { name: 'Remada curvada barra',      alt: 'Remada haltere unilateral',  sets: 4, reps: 10,     muscle: 'costas' },
-    { name: 'Remada cavalinho',          alt: 'Remada baixa cabo',          sets: 3, reps: 12,     muscle: 'costas' },
-    { name: 'Pullover haltere',          alt: 'Pullover polia',             sets: 3, reps: 12,     muscle: 'costas' },
-    { name: 'Rosca direta barra',        alt: 'Rosca direta halteres',      sets: 4, reps: 12,     muscle: 'biceps' },
-    { name: 'Rosca concentrada',         alt: 'Rosca martelo',              sets: 3, reps: 12,     muscle: 'biceps' },
+    { group: 'costas',   sets: 4, reps: 10 },
+    { group: 'costas',   sets: 4, reps: 10 },
+    { group: 'costas',   sets: 3, reps: 12 },
+    { group: 'biceps',   sets: 4, reps: 12 },
+    { group: 'biceps',   sets: 3, reps: 12 },
+    { group: 'biceps',   sets: 3, reps: 12 },
   ],
   c: [
-    { name: 'Leg press',                 alt: 'Agachamento hack',           sets: 4, reps: 10,     muscle: 'pernas' },
-    { name: 'Cadeira extensora',         alt: 'Agachamento sumô',           sets: 3, reps: 12,     muscle: 'pernas' },
-    { name: 'Mesa flexora',              alt: 'Stiff halteres',             sets: 3, reps: 12,     muscle: 'pernas' },
-    { name: 'Desenvolvimento halteres', alt: 'Desenvolvimento máquina',    sets: 4, reps: 10,     muscle: 'ombro' },
-    { name: 'Elevação lateral',          alt: 'Elevação lateral cabo',      sets: 3, reps: 15,     muscle: 'ombro' },
-    { name: 'Prancha',                   alt: 'Abdominal supra',            sets: 3, reps: '45s',  muscle: 'core' },
-  ]
+    { group: 'pernas',     sets: 4, reps: 10 },
+    { group: 'pernas',     sets: 4, reps: 10 },
+    { group: 'posterior',  sets: 3, reps: 12 },
+    { group: 'posterior',  sets: 3, reps: 12 },
+    { group: 'panturrilha',sets: 4, reps: 15 },
+  ],
 };
 
 // Body SVGs per muscle group
@@ -4264,20 +4329,31 @@ function renderTreino() {
       const cur = s[key] || {};
       const lastKey = `${ficha}_${i}_last`;
       const last = s[lastKey];
-      const showAlt = cur.showAlt || false;
       const isDone = !!(cur.done);
-      const displayName = showAlt ? ex.alt : ex.name;
+      const selectedEx = cur.selectedEx || '';
+      const opts = exerciseOptions[ex.group] || [];
+      const groupLabel = { peito:'Peito', ombro:'Ombro', triceps:'Tríceps', costas:'Costas',
+        biceps:'Bíceps', pernas:'Pernas', posterior:'Posterior', panturrilha:'Panturrilha' }[ex.group] || ex.group;
+
       const historyText = last
         ? `Última:<br><strong>${last.kg||'—'}kg · ${last.sets}×${last.reps}</strong>`
         : `<span style="opacity:0.35">Sem histórico</span>`;
 
+      const optionsHTML = `<option value="" disabled ${!selectedEx?'selected':''}>— ${groupLabel} —</option>`
+        + opts.map(o => `<option value="${o}" ${o===selectedEx?'selected':''}>${o}</option>`).join('');
+
       return `<div class="ex-card ${isDone ? 'done' : ''}" id="ex-card-${ficha}-${i}">
         <div class="ex-card-top">
           <span class="ex-card-num">${String(i+1).padStart(2,'0')}</span>
-          <div class="ex-card-name">${displayName}</div>
-          <button class="ex-card-alt-btn ${showAlt?'on':''}" onclick="toggleAlt('${ficha}',${i})">${showAlt?'↩':'Alt'}</button>
+          <div class="ex-card-name" style="font-size:10px;opacity:${selectedEx?'1':'0.4'}">${selectedEx || groupLabel}</div>
         </div>
-        <div class="ex-card-body-svg">${getBodySVG(ex.muscle)}</div>
+        <div class="ex-card-selector-wrap">
+          <select class="ex-card-selector ${selectedEx?'selected':''}"
+            onchange="selectExercise('${ficha}',${i},this.value)">${optionsHTML}</select>
+        </div>
+        <div class="ex-card-muscle-placeholder">
+          <span class="ex-card-muscle-placeholder-label">Ilustração muscular</span>
+        </div>
         <div class="ex-card-inputs">
           <div class="ex-input-wrap">
             <div class="ex-input-label">Kg</div>
@@ -4300,7 +4376,7 @@ function renderTreino() {
           <button class="ex-done-btn" onclick="toggleExDone('${ficha}',${i})">
             ${isDone
               ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg> Feito'
-              : 'Concluir'}
+              : 'Feito'}
           </button>
         </div>
       </div>`;
@@ -4325,6 +4401,15 @@ function renderTreino() {
   });
 }
 
+function selectExercise(ficha, idx, value) {
+  const s = getTreinoState();
+  const key = `${ficha}_${idx}`;
+  s[key] = s[key] || {};
+  s[key].selectedEx = value;
+  saveTreinoState(s);
+  renderTreino();
+}
+
 function saveExercicio(ficha, idx, field, value) {
   const s = getTreinoState();
   const key = `${ficha}_${idx}`;
@@ -4339,7 +4424,6 @@ function toggleExDone(ficha, idx) {
   s[key] = s[key] || {};
   const wasDone = !!s[key].done;
   s[key].done = !wasDone;
-  // Save as last if completing
   if (!wasDone && (s[key].kg || s[key].sets || s[key].reps)) {
     s[`${ficha}_${idx}_last`] = {
       kg: s[key].kg || '',
@@ -4347,15 +4431,6 @@ function toggleExDone(ficha, idx) {
       reps: s[key].reps || treinoData[ficha][idx].reps,
     };
   }
-  saveTreinoState(s);
-  renderTreino();
-}
-
-function toggleAlt(ficha, idx) {
-  const s = getTreinoState();
-  const key = `${ficha}_${idx}`;
-  s[key] = s[key] || {};
-  s[key].showAlt = !s[key].showAlt;
   saveTreinoState(s);
   renderTreino();
 }
