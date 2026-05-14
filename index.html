@@ -1453,7 +1453,7 @@
     background: rgba(59,130,246,0.08);
     transform: translateY(-2px);
   }
-  .water-btn .icon { font-size: 22px; }
+  .water-btn .icon { font-size: 22px; display: flex; align-items: center; justify-content: center; }
   .water-btn .ml { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--text-muted); letter-spacing: 0.05em; }
   .water-btn-undo {
     display: flex; align-items: center; gap: 4px;
@@ -2302,9 +2302,36 @@
         <div class="water-amount" id="water-amount">0<span>ml / 3000ml</span></div>
         <div class="water-goal" id="water-goal-text">Faltam 3000ml para atingir a meta</div>
         <div class="water-btns">
-          <button class="water-btn" onclick="addWater(400)"><span class="icon">🥛</span><span class="ml">+400ml</span></button>
-          <button class="water-btn" onclick="addWater(500)"><span class="icon">🧴</span><span class="ml">+500ml</span></button>
-          <button class="water-btn" onclick="addWater(2000)"><span class="icon">🫙</span><span class="ml">+2000ml</span></button>
+          <button class="water-btn" onclick="addWater(400)">
+            <span class="icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 3h10v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V3z"/>
+                <path d="M7 7v11a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7"/>
+                <path d="M10 12c0 1 .8 2 2 2s2-1 2-2" opacity="0.5"/>
+              </svg>
+            </span>
+            <span class="ml">+400ml</span>
+          </button>
+          <button class="water-btn" onclick="addWater(500)">
+            <span class="icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2c0 0-6 6-6 11a6 6 0 0 0 12 0c0-5-6-11-6-11z"/>
+                <path d="M9 16c.5 1.5 1.5 2 3 2s2.5-.5 3-2" opacity="0.5"/>
+              </svg>
+            </span>
+            <span class="ml">+500ml</span>
+          </button>
+          <button class="water-btn" onclick="addWater(2000)">
+            <span class="icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="12" height="17" rx="2"/>
+                <path d="M9 4V2h6v2"/>
+                <path d="M9 11h6M9 15h4" opacity="0.5"/>
+                <path d="M6 8h12" opacity="0.3"/>
+              </svg>
+            </span>
+            <span class="ml">+2000ml</span>
+          </button>
           <button class="water-btn-undo" onclick="undoWater()">↩ Desfazer</button>
         </div>
       </div>
@@ -2416,17 +2443,32 @@
         <div class="morning-items">
           <div class="morning-item" id="morning-0" onclick="toggleMorning(0)">
             <div class="morning-check" id="morning-check-0"></div>
-            <span class="morning-item-label">💪 50 Flexões</span>
+            <span class="morning-item-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c8f135" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:8px;flex-shrink:0">
+                <circle cx="12" cy="6" r="2"/>
+                <path d="M12 8v3"/>
+                <path d="M6 21l3-6 3 3 3-6 3 6"/>
+                <path d="M4 15h16" opacity="0.4"/>
+              </svg>50 Flexões</span>
             <span class="morning-item-sub">Manhã</span>
           </div>
           <div class="morning-item" id="morning-1" onclick="toggleMorning(1)">
             <div class="morning-check" id="morning-check-1"></div>
-            <span class="morning-item-label">🧪 Creatina</span>
+            <span class="morning-item-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:8px;flex-shrink:0">
+                <rect x="7" y="6" width="10" height="15" rx="2"/>
+                <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                <path d="M10 11h4M12 9v4"/>
+              </svg>Creatina</span>
             <span class="morning-item-sub">1 scoop</span>
           </div>
           <div class="morning-item" id="morning-2" onclick="toggleMorning(2)">
             <div class="morning-check" id="morning-check-2"></div>
-            <span class="morning-item-label">💧 500ml de água</span>
+            <span class="morning-item-label">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:8px;flex-shrink:0">
+                <path d="M12 2C12 2 5 10 5 15a7 7 0 0 0 14 0c0-5-7-13-7-13z"/>
+                <path d="M8.5 17a3.5 3.5 0 0 0 5 0" opacity="0.5"/>
+              </svg>500ml de água</span>
             <span class="morning-item-sub">Primeiro copo do dia</span>
           </div>
         </div>
@@ -2455,12 +2497,24 @@
         </div>
         <div class="pushup-grid">
           <div class="pushup-half" id="pushup-am" onclick="togglePushup('am')">
-            <div class="pushup-half-icon">🌅</div>
+            <div class="pushup-half-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 8a4 4 0 0 1 4 4"/>
+                <path d="M12 8a4 4 0 0 0-4 4"/>
+                <path d="M5 12H3M21 12h-2M12 3V1M18.36 5.64l-1.41 1.41M6.05 6.05 4.64 4.64"/>
+                <path d="M3 16h18M6 19h12"/>
+              </svg>
+            </div>
             <div class="pushup-half-label">50 Manhã</div>
             <div class="pushup-half-sub">Ao acordar</div>
           </div>
           <div class="pushup-half" id="pushup-pm" onclick="togglePushup('pm')">
-            <div class="pushup-half-icon">🌙</div>
+            <div class="pushup-half-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                <path d="M19 8l1-2M21 11l2-1" opacity="0.4"/>
+              </svg>
+            </div>
             <div class="pushup-half-label">50 Noite</div>
             <div class="pushup-half-sub">Antes de dormir</div>
           </div>
