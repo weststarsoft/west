@@ -1130,6 +1130,267 @@
   .copy-btn:hover { background: #d4f53f; transform: scale(1.02); }
   .copy-btn.copied { background: #22c55e; color: #fff; }
 
+  /* ─── TREINO PAGE ─── */
+  .treino-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .treino-tab {
+    flex: 1;
+    padding: 14px 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    color: var(--text-muted);
+  }
+  .treino-tab:hover { border-color: rgba(239,68,68,0.3); color: var(--text); }
+  .treino-tab.active {
+    border-color: #ef4444;
+    background: rgba(239,68,68,0.08);
+    box-shadow: 0 0 20px rgba(239,68,68,0.1);
+    color: #ef4444;
+  }
+  .treino-tab-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+  .treino-tab-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+    opacity: 0.7;
+  }
+
+  .treino-ficha { display: none; }
+  .treino-ficha.active { display: block; }
+
+  .treino-ficha-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .treino-ficha-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+  .treino-ficha-focus {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: #ef4444;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .treino-session-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(239,68,68,0.3);
+    background: rgba(239,68,68,0.06);
+    color: #ef4444;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .treino-session-btn:hover { background: rgba(239,68,68,0.12); border-color: #ef4444; }
+  .treino-session-btn.active {
+    background: #ef4444;
+    color: #000;
+    border-color: #ef4444;
+    font-weight: 600;
+  }
+
+  .exercicio-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+
+  .exercicio-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .exercicio-card:hover { border-color: rgba(239,68,68,0.2); }
+
+  .exercicio-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    gap: 12px;
+  }
+  .exercicio-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: #ef4444;
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+  .exercicio-name-wrap { flex: 1; }
+  .exercicio-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .exercicio-alt-name {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 2px;
+    display: none;
+  }
+  .exercicio-alt-name.visible { display: block; }
+  .exercicio-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .exercicio-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    padding: 0 16px 12px;
+  }
+  .exercicio-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .exercicio-input-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+  .exercicio-input {
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    text-align: center;
+    width: 100%;
+    transition: border-color 0.2s;
+    -moz-appearance: textfield;
+  }
+  .exercicio-input::-webkit-outer-spin-button,
+  .exercicio-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+  .exercicio-input:focus { outline: none; border-color: rgba(239,68,68,0.4); }
+
+  .exercicio-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px 12px;
+    gap: 8px;
+  }
+  .exercicio-history {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 300;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.03em;
+  }
+  .exercicio-history span { color: #ef4444; opacity: 0.8; }
+  .exercicio-alt-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 10px;
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .exercicio-alt-btn:hover { border-color: rgba(239,68,68,0.3); color: #ef4444; }
+  .exercicio-alt-btn.showing { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.06); }
+
+  .treino-aerobico {
+    background: var(--surface2);
+    border: 1px solid rgba(239,68,68,0.2);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .treino-aerobico:hover { border-color: rgba(239,68,68,0.4); }
+  .treino-aerobico.done {
+    border-color: #ef4444;
+    background: rgba(239,68,68,0.08);
+  }
+  .treino-aerobico-left { display: flex; align-items: center; gap: 14px; }
+  .treino-aerobico-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .treino-aerobico-icon svg { width: 20px; height: 20px; }
+  .treino-aerobico-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+  }
+  .treino-aerobico-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 300;
+    margin-top: 1px;
+  }
+  .treino-aerobico-check {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface3);
+    display: flex; align-items: center; justify-content: center;
+    color: #ef4444;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .treino-aerobico.done .treino-aerobico-check {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: #000;
+  }
+
   /* ─── COMING SOON ─── */
   .coming-soon {
     display: flex;
@@ -2552,11 +2813,111 @@
 <!-- ─── PAGE: TREINO ─── -->
 <div class="page" id="page-treino">
   <div class="main">
-    <div class="coming-soon">
-      <div class="coming-soon-icon">🏋️</div>
-      <div class="coming-soon-title">TREINO</div>
-      <div class="coming-soon-text">Em breve — acompanhamento de treinos, progresso e metas físicas.</div>
+
+    <!-- TABS A / B / C -->
+    <div class="treino-tabs">
+      <div class="treino-tab active" id="tab-a" onclick="switchTreino('a')">
+        <div class="treino-tab-letter">A</div>
+        <div class="treino-tab-label">Peito · Tríceps</div>
+      </div>
+      <div class="treino-tab" id="tab-b" onclick="switchTreino('b')">
+        <div class="treino-tab-letter">B</div>
+        <div class="treino-tab-label">Costas · Bíceps</div>
+      </div>
+      <div class="treino-tab" id="tab-c" onclick="switchTreino('c')">
+        <div class="treino-tab-letter">C</div>
+        <div class="treino-tab-label">Pernas · Ombro · Core</div>
+      </div>
     </div>
+
+    <!-- FICHA A -->
+    <div class="treino-ficha active" id="ficha-a">
+      <div class="treino-ficha-header">
+        <div>
+          <div class="treino-ficha-title">TREINO A</div>
+          <div class="treino-ficha-focus">Peito + Tríceps</div>
+        </div>
+        <button class="treino-session-btn" id="session-btn-a" onclick="toggleSession('a')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Iniciar sessão
+        </button>
+      </div>
+      <div class="exercicio-list" id="list-a"></div>
+      <div class="treino-aerobico" id="aerobico-a" onclick="toggleAerobico('a')">
+        <div class="treino-aerobico-left">
+          <div class="treino-aerobico-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 4v7h7l-9 9v-7H4l9-9z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="treino-aerobico-title">Aeróbico · Esteira</div>
+            <div class="treino-aerobico-sub">20 minutos · pós-treino</div>
+          </div>
+        </div>
+        <div class="treino-aerobico-check" id="aerobico-check-a">✓</div>
+      </div>
+    </div>
+
+    <!-- FICHA B -->
+    <div class="treino-ficha" id="ficha-b">
+      <div class="treino-ficha-header">
+        <div>
+          <div class="treino-ficha-title">TREINO B</div>
+          <div class="treino-ficha-focus">Costas + Bíceps</div>
+        </div>
+        <button class="treino-session-btn" id="session-btn-b" onclick="toggleSession('b')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Iniciar sessão
+        </button>
+      </div>
+      <div class="exercicio-list" id="list-b"></div>
+      <div class="treino-aerobico" id="aerobico-b" onclick="toggleAerobico('b')">
+        <div class="treino-aerobico-left">
+          <div class="treino-aerobico-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 4v7h7l-9 9v-7H4l9-9z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="treino-aerobico-title">Aeróbico · Esteira</div>
+            <div class="treino-aerobico-sub">20 minutos · pós-treino</div>
+          </div>
+        </div>
+        <div class="treino-aerobico-check" id="aerobico-check-b">✓</div>
+      </div>
+    </div>
+
+    <!-- FICHA C -->
+    <div class="treino-ficha" id="ficha-c">
+      <div class="treino-ficha-header">
+        <div>
+          <div class="treino-ficha-title">TREINO C</div>
+          <div class="treino-ficha-focus">Pernas + Ombro + Core</div>
+        </div>
+        <button class="treino-session-btn" id="session-btn-c" onclick="toggleSession('c')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Iniciar sessão
+        </button>
+      </div>
+      <div class="exercicio-list" id="list-c"></div>
+      <div class="treino-aerobico" id="aerobico-c" onclick="toggleAerobico('c')">
+        <div class="treino-aerobico-left">
+          <div class="treino-aerobico-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+            </svg>
+          </div>
+          <div>
+            <div class="treino-aerobico-title">Aeróbico · Bike</div>
+            <div class="treino-aerobico-sub">20 minutos · pós-treino</div>
+          </div>
+        </div>
+        <div class="treino-aerobico-check" id="aerobico-check-c">✓</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -3833,11 +4194,183 @@ function copyElementText(btn, elementId) {
   });
 })();
 
+// ─── TREINO DATA ───
+const treinoData = {
+  a: [
+    { name: 'Supino reto com barra',      alt: 'Supino reto com halteres',   sets: 4, reps: 10 },
+    { name: 'Supino inclinado halteres',  alt: 'Cross over inclinado',        sets: 3, reps: 12 },
+    { name: 'Crucifixo halteres',         alt: 'Peck deck',                   sets: 3, reps: 12 },
+    { name: 'Tríceps pulley corda',       alt: 'Tríceps barra reta',          sets: 4, reps: 12 },
+    { name: 'Tríceps francês',            alt: 'Tríceps testa',               sets: 3, reps: 12 },
+    { name: 'Mergulho no banco',          alt: 'Mergulho nas paralelas',      sets: 3, reps: 'Falha' },
+  ],
+  b: [
+    { name: 'Puxada frontal',             alt: 'Barra fixa',                  sets: 4, reps: 10 },
+    { name: 'Remada curvada barra',       alt: 'Remada haltere unilateral',   sets: 4, reps: 10 },
+    { name: 'Remada cavalinho',           alt: 'Remada baixa cabo',           sets: 3, reps: 12 },
+    { name: 'Pullover haltere',           alt: 'Pullover polia',              sets: 3, reps: 12 },
+    { name: 'Rosca direta barra',         alt: 'Rosca direta halteres',       sets: 4, reps: 12 },
+    { name: 'Rosca concentrada',          alt: 'Rosca martelo',               sets: 3, reps: 12 },
+  ],
+  c: [
+    { name: 'Leg press',                  alt: 'Agachamento hack',            sets: 4, reps: 10 },
+    { name: 'Cadeira extensora',          alt: 'Agachamento sumô',            sets: 3, reps: 12 },
+    { name: 'Mesa flexora',               alt: 'Stiff halteres',              sets: 3, reps: 12 },
+    { name: 'Desenvolvimento halteres',   alt: 'Desenvolvimento máquina',     sets: 4, reps: 10 },
+    { name: 'Elevação lateral',           alt: 'Elevação lateral cabo',       sets: 3, reps: 15 },
+    { name: 'Prancha',                    alt: 'Abdominal supra',             sets: 3, reps: '45s' },
+  ]
+};
+
+// ─── TREINO STATE ───
+function getTreinoState() {
+  try {
+    return JSON.parse(localStorage.getItem('west_treino') || '{}');
+  } catch { return {}; }
+}
+function saveTreinoState(s) {
+  localStorage.setItem('west_treino', JSON.stringify(s));
+}
+
+// ─── RENDER TREINO ───
+function renderTreino() {
+  const s = getTreinoState();
+  const today = new Date().toISOString().split('T')[0];
+  ['a','b','c'].forEach(ficha => {
+    const list = document.getElementById('list-' + ficha);
+    if (!list) return;
+    const exercises = treinoData[ficha];
+    const sessionKey = ficha + '_session';
+    const sessionActive = s[sessionKey] === today;
+    const sessionBtn = document.getElementById('session-btn-' + ficha);
+    if (sessionBtn) {
+      sessionBtn.classList.toggle('active', sessionActive);
+      sessionBtn.innerHTML = sessionActive
+        ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Sessão ativa'
+        : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg> Iniciar sessão';
+    }
+    list.innerHTML = exercises.map((ex, i) => {
+      const key = `${ficha}_${i}`;
+      const cur = s[key] || {};
+      const lastKey = `${ficha}_${i}_last`;
+      const last = s[lastKey];
+      const showAlt = cur.showAlt || false;
+      const displayName = showAlt ? ex.alt : ex.name;
+      const altLabel = showAlt ? 'Principal' : 'Alternativa';
+      const historyText = last
+        ? `Última: <span>${last.kg || '—'}kg · ${last.sets}x${last.reps}</span>`
+        : `<span style="opacity:0.4">Sem histórico</span>`;
+      return `
+        <div class="exercicio-card">
+          <div class="exercicio-top">
+            <span class="exercicio-num">${String(i+1).padStart(2,'0')}</span>
+            <div class="exercicio-name-wrap">
+              <div class="exercicio-name">${displayName}</div>
+              <div class="exercicio-alt-name ${showAlt ? 'visible' : ''}">Alt: ${showAlt ? ex.name : ex.alt}</div>
+            </div>
+            <span class="exercicio-meta">${ex.sets}×${ex.reps}</span>
+          </div>
+          <div class="exercicio-inputs">
+            <div class="exercicio-input-wrap">
+              <div class="exercicio-input-label">Carga (kg)</div>
+              <input class="exercicio-input" type="number" placeholder="—" value="${cur.kg||''}" min="0" step="2.5"
+                onchange="saveExercicio('${ficha}',${i},'kg',this.value)">
+            </div>
+            <div class="exercicio-input-wrap">
+              <div class="exercicio-input-label">Séries</div>
+              <input class="exercicio-input" type="number" placeholder="${ex.sets}" value="${cur.sets||''}" min="1" max="10"
+                onchange="saveExercicio('${ficha}',${i},'sets',this.value)">
+            </div>
+            <div class="exercicio-input-wrap">
+              <div class="exercicio-input-label">Reps</div>
+              <input class="exercicio-input" type="text" placeholder="${ex.reps}" value="${cur.reps||''}"
+                onchange="saveExercicio('${ficha}',${i},'reps',this.value)">
+            </div>
+          </div>
+          <div class="exercicio-footer">
+            <div class="exercicio-history">${historyText}</div>
+            <button class="exercicio-alt-btn ${showAlt ? 'showing' : ''}"
+              onclick="toggleAlt('${ficha}',${i})">${altLabel}</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    // aerobico
+    const aeroKey = ficha + '_aerobico_' + today;
+    const aeroDone = !!s[aeroKey];
+    const aeroEl = document.getElementById('aerobico-' + ficha);
+    const aeroCheck = document.getElementById('aerobico-check-' + ficha);
+    if (aeroEl) aeroEl.classList.toggle('done', aeroDone);
+    if (aeroCheck) aeroCheck.textContent = aeroDone ? '✓' : '';
+  });
+}
+
+function saveExercicio(ficha, idx, field, value) {
+  const s = getTreinoState();
+  const key = `${ficha}_${idx}`;
+  s[key] = s[key] || {};
+  s[key][field] = value;
+  saveTreinoState(s);
+}
+
+function toggleAlt(ficha, idx) {
+  const s = getTreinoState();
+  const key = `${ficha}_${idx}`;
+  s[key] = s[key] || {};
+  s[key].showAlt = !s[key].showAlt;
+  saveTreinoState(s);
+  renderTreino();
+}
+
+function toggleSession(ficha) {
+  const s = getTreinoState();
+  const today = new Date().toISOString().split('T')[0];
+  const sessionKey = ficha + '_session';
+  if (s[sessionKey] === today) {
+    // Closing session — save current values as last
+    treinoData[ficha].forEach((_, i) => {
+      const key = `${ficha}_${i}`;
+      if (s[key] && (s[key].kg || s[key].sets || s[key].reps)) {
+        s[`${ficha}_${i}_last`] = {
+          kg: s[key].kg || '',
+          sets: s[key].sets || treinoData[ficha][i].sets,
+          reps: s[key].reps || treinoData[ficha][i].reps,
+          date: today
+        };
+        // Reset current
+        delete s[key].kg; delete s[key].sets; delete s[key].reps;
+      }
+    });
+    delete s[sessionKey];
+  } else {
+    s[sessionKey] = today;
+  }
+  saveTreinoState(s);
+  renderTreino();
+}
+
+function toggleAerobico(ficha) {
+  const s = getTreinoState();
+  const today = new Date().toISOString().split('T')[0];
+  const key = ficha + '_aerobico_' + today;
+  s[key] = !s[key];
+  saveTreinoState(s);
+  renderTreino();
+}
+
+function switchTreino(ficha) {
+  ['a','b','c'].forEach(f => {
+    document.getElementById('tab-' + f).classList.toggle('active', f === ficha);
+    document.getElementById('ficha-' + f).classList.toggle('active', f === ficha);
+  });
+}
+
 // ─── START ───
 initAiGrid();
 initPrompts();
 initJsonPrompts();
 initAngles();
+renderTreino();
 
 </script>
 </body>
